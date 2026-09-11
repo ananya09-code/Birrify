@@ -137,6 +137,9 @@ def get_history(
     #
     # Average:
     #   midpoint between market buy and market sell
+    #
+    # Spread:
+    #   market sell - market buy
     # ---------------------------------------------------------
     history = []
 
@@ -152,6 +155,7 @@ def get_history(
         ) / len(rates_for_day)
 
         average = (buy + sell) / 2
+        spread = sell - buy
 
         history.append(
             {
@@ -159,6 +163,7 @@ def get_history(
                 "buy": round(buy, 4),
                 "sell": round(sell, 4),
                 "average": round(average, 4),
+                "spread": round(spread, 4),
             }
         )
 
@@ -173,6 +178,7 @@ def get_history(
             "buy": 0,
             "sell": 0,
             "average": 0,
+            "spread": 0,
         }
 
     if len(history) >= 2:
@@ -202,6 +208,23 @@ def get_history(
             "change_percent": round(change_percent, 4),
         }
 
+    # ---------------------------------------------------------
+    # Period high / low.
+    #
+    # Based on the daily market average rate.
+    # ---------------------------------------------------------
+    if history:
+        period_high = max(
+            item["average"] for item in history
+        )
+
+        period_low = min(
+            item["average"] for item in history
+        )
+    else:
+        period_high = 0
+        period_low = 0
+
     summary = {
         "buy": calculate_change(
             current["buy"],
@@ -215,6 +238,8 @@ def get_history(
             current["average"],
             previous["average"],
         ),
+        "period_high": round(period_high, 4),
+        "period_low": round(period_low, 4),
     }
 
     return {
