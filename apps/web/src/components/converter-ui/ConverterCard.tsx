@@ -1,6 +1,6 @@
 import { ArrowDownUp } from "lucide-react";
-import CurrencySelect from "./CurrencySelect";
-import type { CurrencyRate } from "@/lib/mock/currencyRates";
+
+import CurrencySelect, { SUPPORTED_CURRENCIES } from "./CurrencySelect";
 
 type RateType = "average" | "buy" | "sell";
 
@@ -11,8 +11,10 @@ type ConverterCardProps = {
   rateType: RateType;
   result: number;
   rate: number;
-  fromRate?: CurrencyRate;
-  toRate?: CurrencyRate;
+  fromName?: string;
+  toName?: string;
+  updatedAt?: string;
+  isLoading?: boolean;
   onAmountChange: (value: string) => void;
   onFromCurrencyChange: (value: string) => void;
   onToCurrencyChange: (value: string) => void;
@@ -20,11 +22,18 @@ type ConverterCardProps = {
   onSwap: () => void;
 };
 
-function formatNumber(value: number, maximumFractionDigits = 2) {
+function formatNumber(value: number) {
   return new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 2,
-    maximumFractionDigits,
+    maximumFractionDigits: 2,
   }).format(value);
+}
+
+function getCurrencyName(code: string) {
+  return (
+    SUPPORTED_CURRENCIES.find((currency) => currency.code === code)?.name ??
+    code
+  );
 }
 
 export default function ConverterCard({
@@ -34,17 +43,16 @@ export default function ConverterCard({
   rateType,
   result,
   rate,
-  fromRate,
-  toRate,
+  fromName = getCurrencyName(fromCurrency),
+  toName = getCurrencyName(toCurrency),
+  updatedAt,
+  isLoading = false,
   onAmountChange,
   onFromCurrencyChange,
   onToCurrencyChange,
   onRateTypeChange,
   onSwap,
 }: ConverterCardProps) {
-  const fromName = fromRate?.name ?? fromCurrency;
-  const toName = toRate?.name ?? toCurrency;
-
   return (
     <div className="overflow-hidden rounded-2xl border bg-card shadow-sm">
       <div className="p-5 sm:p-7">
@@ -154,9 +162,9 @@ export default function ConverterCard({
               </p>
 
               <p className="mt-1 text-lg font-semibold tracking-tight">
-                1 {fromCurrency}{" "}
-                <span className="mx-1 text-muted-foreground">=</span>{" "}
-                {formatNumber(rate)} {toCurrency}
+                1 {fromCurrency}
+                <span className="mx-1 text-muted-foreground">=</span>
+                {isLoading ? "—" : formatNumber(rate)} {toCurrency}
               </p>
             </div>
 
@@ -166,8 +174,14 @@ export default function ConverterCard({
                   ? "Average rate"
                   : `${rateType === "buy" ? "Buy" : "Sell"} rate`}
               </p>
+
               <p className="mt-1 text-xs text-muted-foreground">
-                Updated 2 minutes ago
+                {updatedAt
+                  ? `Updated ${new Date(updatedAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}`
+                  : "Market rate"}
               </p>
             </div>
           </div>

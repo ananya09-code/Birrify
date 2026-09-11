@@ -5,7 +5,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { currencyRates } from "@/lib/mock/currencyRates";
+
+export const SUPPORTED_CURRENCIES = [
+  { code: "ETB", name: "Ethiopian Birr" },
+  { code: "USD", name: "US Dollar" },
+  { code: "EUR", name: "Euro" },
+  { code: "GBP", name: "British Pound" },
+  { code: "AED", name: "UAE Dirham" },
+  { code: "SAR", name: "Saudi Riyal" },
+];
 
 type CurrencySelectProps = {
   value: string;
@@ -23,7 +31,7 @@ export default function CurrencySelect({
       </SelectTrigger>
 
       <SelectContent>
-        {currencyRates.map((currency) => (
+        {SUPPORTED_CURRENCIES.map((currency) => (
           <SelectItem key={currency.code} value={currency.code}>
             <div className="flex items-center gap-2">
               <span className="font-medium">{currency.code}</span>

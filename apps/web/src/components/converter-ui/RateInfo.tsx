@@ -1,33 +1,40 @@
-import { ArrowDown, ArrowUp, Minus } from "lucide-react";
-import type { CurrencyRate } from "@/lib/mock/currencyRates";
+import { ArrowDown, ArrowRight, ArrowUp, Minus } from "lucide-react";
+
+import type { MarketPoint } from "@/services/market";
 
 type RateInfoProps = {
-  currency: CurrencyRate;
+  currency: string;
+  market: MarketPoint["market"];
+  updatedAt?: string;
 };
 
-export default function RateInfo({ currency }: RateInfoProps) {
-  const spread = currency.sell - currency.buy;
+export default function RateInfo({
+  currency,
+  market,
+  updatedAt,
+}: RateInfoProps) {
+  const average = (market.average_buy + market.average_sell) / 2;
 
   const items = [
     {
       label: "Buy rate",
-      value: currency.buy,
+      value: market.average_buy,
       icon: ArrowDown,
     },
     {
       label: "Sell rate",
-      value: currency.sell,
+      value: market.average_sell,
       icon: ArrowUp,
     },
     {
       label: "Average",
-      value: currency.average,
+      value: average,
       icon: Minus,
     },
     {
       label: "Spread",
-      value: spread,
-      icon: ArrowRightPlaceholder,
+      value: market.spread,
+      icon: ArrowRight,
     },
   ];
 
@@ -35,10 +42,11 @@ export default function RateInfo({ currency }: RateInfoProps) {
     <section>
       <div className="mb-4">
         <h2 className="text-lg font-semibold tracking-tight">
-          {currency.code} / ETB rate information
+          {currency} / ETB rate information
         </h2>
+
         <p className="mt-1 text-sm text-muted-foreground">
-          Latest available dummy market rates.
+          Latest available market rates from Birrify.
         </p>
       </div>
 
@@ -66,12 +74,16 @@ export default function RateInfo({ currency }: RateInfoProps) {
 
       <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
         <span>Rates provided by Birrify</span>
-        <span>Updated 2 minutes ago</span>
+
+        <span>
+          {updatedAt
+            ? `Updated ${new Date(updatedAt).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}`
+            : "Latest available"}
+        </span>
       </div>
     </section>
   );
-}
-
-function ArrowRightPlaceholder() {
-  return <span className="text-xs font-semibold">↔</span>;
 }

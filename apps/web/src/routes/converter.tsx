@@ -5,7 +5,8 @@ import { Calculator } from "lucide-react";
 import ConverterCard from "@/components/converter-ui/ConverterCard";
 import PopularConversions from "@/components/converter-ui/PopularConversions";
 import RateInfo from "@/components/converter-ui/RateInfo";
-import { currencyRates } from "@/lib/mock/currencyRates";
+import { useMarket } from "@/hooks/use-market";
+import { SUPPORTED_CURRENCIES } from "@/components/converter-ui/CurrencySelect";
 
 type RateType = "average" | "buy" | "sell";
 
@@ -19,35 +20,85 @@ function ConverterPage() {
   const [toCurrency, setToCurrency] = useState("ETB");
   const [rateType, setRateType] = useState<RateType>("average");
 
-  const fromRate = useMemo(
-    () => currencyRates.find((currency) => currency.code === fromCurrency),
-    [fromCurrency],
-  );
+  const fromMarket = useMarket({
+    currency: fromCurrency === "ETB" ? "USD" : fromCurrency,
+  });
 
-  const toRate = useMemo(
-    () => currencyRates.find((currency) => currency.code === toCurrency),
-    [toCurrency],
-  );
+  const toMarket = useMarket({
+    currency: toCurrency === "ETB" ? "USD" : toCurrency,
+  });
+
+  const fromData = fromCurrency === "ETB" ? null : fromMarket.data;
+
+  const toData = toCurrency === "ETB" ? null : toMarket.data;
+
+  const isLoading = fromMarket.isLoading || toMarket.isLoading;
+
+  function getAverage(market: { average_buy: number; average_sell: number }) {
+    return (market.average_buy + market.average_sell) / 2;
+  }
+
+  function getRate(
+    currency: string,
+    market: typeof fromData,
+    direction: "source" | "target",
+  ) {
+    if (currency === "ETB") {
+      return 1;
+    }
+
+    if (!market) {
+      return 0;
+    }
+
+    if (rateType === "average") {
+      return getAverage(market.market);
+    }
+
+    if (rateType === "buy") {
+      return market.market.average_buy;
+    }
+
+    if (rateType === "sell") {
+      return market.market.average_sell;
+    }
+
+    return direction === "source"
+      ? market.market.average_buy
+      : market.market.average_sell;
+  }
 
   const rate = useMemo(() => {
-    if (!fromRate || !toRate) return 0;
-
-    const fromValue = fromRate[rateType];
-    const toValue = toRate[rateType];
-
     if (fromCurrency === toCurrency) {
       return 1;
     }
 
-    // All mock rates are expressed against ETB.
-    // Convert source -> ETB -> target.
-    return fromValue / toValue;
-  }, [fromRate, toRate, fromCurrency, toCurrency, rateType]);
+    const sourceRate = getRate(fromCurrency, fromData, "source");
+
+    const targetRate = getRate(toCurrency, toData, "target");
+
+    if (!sourceRate || !targetRate) {
+      return 0;
+    }
+
+    // Foreign → ETB
+    if (toCurrency === "ETB") {
+      return sourceRate;
+    }
+
+    // ETB → Foreign
+    if (fromCurrency === "ETB") {
+      return 1 / targetRate;
+    }
+
+    // Foreign → Foreign
+    return sourceRate / targetRate;
+  }, [fromCurrency, toCurrency, fromData, toData, rateType]);
 
   const result = useMemo(() => {
     const numericAmount = Number(amount);
 
-    if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
+    if (!Number.isFinite(numericAmount) || numericAmount <= 0 || rate <= 0) {
       return 0;
     }
 
@@ -77,9 +128,32 @@ function ConverterPage() {
     setToCurrency("ETB");
   }
 
+  const popularCurrencies = SUPPORTED_CURRENCIES.filter(
+    (currency) => currency.code !== "ETB",
+  ).map((currency) => {
+    const market =
+      currency.code === fromCurrency
+        ? fromData
+        : currency.code === toCurrency
+          ? toData
+          : undefined;
+
+    return {
+      code: currency.code,
+      average: market ? getAverage(market.market) : 0,
+    };
+  });
+
+  const fromName =
+    SUPPORTED_CURRENCIES.find((currency) => currency.code === fromCurrency)
+      ?.name ?? fromCurrency;
+
+  const toName =
+    SUPPORTED_CURRENCIES.find((currency) => currency.code === toCurrency)
+      ?.name ?? toCurrency;
+
   return (
     <main className="mx-auto w-full max-w-7xl space-y-8 px-4 py-6 sm:px-6 lg:px-8">
-      {/* Header */}
       <header>
         <div className="mb-2 flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400">
           <Calculator className="size-4" />
@@ -95,7 +169,6 @@ function ConverterPage() {
         </p>
       </header>
 
-      {/* Main converter */}
       <ConverterCard
         amount={amount}
         fromCurrency={fromCurrency}
@@ -103,8 +176,10 @@ function ConverterPage() {
         rateType={rateType}
         result={result}
         rate={rate}
-        fromRate={fromRate}
-        toRate={toRate}
+        fromName={fromName}
+        toName={toName}
+        updatedAt={fromData?.last_updated ?? toData?.last_updated}
+        isLoading={isLoading}
         onAmountChange={handleAmountChange}
         onFromCurrencyChange={setFromCurrency}
         onToCurrencyChange={setToCurrency}
@@ -112,14 +187,25 @@ function ConverterPage() {
         onSwap={handleSwap}
       />
 
-      {/* Popular */}
-      <PopularConversions onSelect={handlePopularConversion} />
+      <PopularConversions
+        currencies={popularCurrencies}
+        onSelect={handlePopularConversion}
+      />
 
-      {/* Rate information */}
-      {fromRate && fromCurrency !== "ETB" && <RateInfo currency={fromRate} />}
+      {fromCurrency !== "ETB" && fromData && (
+        <RateInfo
+          currency={fromCurrency}
+          market={fromData.market}
+          updatedAt={fromData.last_updated}
+        />
+      )}
 
-      {fromCurrency === "ETB" && toRate && toCurrency !== "ETB" && (
-        <RateInfo currency={toRate} />
+      {fromCurrency === "ETB" && toCurrency !== "ETB" && toData && (
+        <RateInfo
+          currency={toCurrency}
+          market={toData.market}
+          updatedAt={toData.last_updated}
+        />
       )}
     </main>
   );

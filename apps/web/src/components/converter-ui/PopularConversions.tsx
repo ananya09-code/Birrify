@@ -1,30 +1,33 @@
 import { ArrowRight } from "lucide-react";
-import { currencyRates } from "@/lib/mock/currencyRates";
+
+type PopularCurrency = {
+  code: string;
+  average: number;
+};
 
 type PopularConversionsProps = {
+  currencies: PopularCurrency[];
   onSelect: (currency: string) => void;
 };
 
 export default function PopularConversions({
+  currencies,
   onSelect,
 }: PopularConversionsProps) {
-  const popularCurrencies = currencyRates.filter(
-    (currency) => currency.code !== "ETB",
-  );
-
   return (
     <section>
       <div className="mb-4">
         <h2 className="text-lg font-semibold tracking-tight">
           Popular conversions
         </h2>
+
         <p className="mt-1 text-sm text-muted-foreground">
           Quickly check common currency pairs.
         </p>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-        {popularCurrencies.map((currency) => (
+        {currencies.map((currency) => (
           <button
             key={currency.code}
             type="button"
