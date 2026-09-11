@@ -1,7 +1,7 @@
 import { ArrowRight, Clock3 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
-import type { Bank } from "@/lib/mock/banks";
+import type { Bank } from "@/services/banks";
 
 type BankCardProps = {
   bank: Bank;
@@ -9,25 +9,23 @@ type BankCardProps = {
 };
 
 export default function BankCard({ bank, currency }: BankCardProps) {
-  const rate = bank.rates[currency];
+  const rate = bank.rates.find((item) => item.currency === currency);
 
   if (!rate) return null;
-
-  const spread = rate.sell - rate.buy;
 
   return (
     <article className="group flex h-full flex-col rounded-xl border bg-card p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
       {/* Bank header */}
       <div className="flex items-start gap-3">
         <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-sm font-bold text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">
-          {bank.shortName}
+          {bank.short_name.slice(0, 3).toUpperCase()}
         </div>
 
         <div className="min-w-0">
           <h2 className="truncate font-semibold">{bank.name}</h2>
 
           <p className="mt-0.5 text-xs text-muted-foreground">
-            {bank.shortName} · {currency}/ETB
+            {bank.short_name} · {currency}/ETB
           </p>
         </div>
       </div>
@@ -54,7 +52,9 @@ export default function BankCard({ bank, currency }: BankCardProps) {
         <div>
           <p className="text-xs text-muted-foreground">Spread</p>
 
-          <p className="mt-1 text-sm font-medium">{spread.toFixed(2)} ETB</p>
+          <p className="mt-1 text-sm font-medium">
+            {rate.spread.toFixed(2)} ETB
+          </p>
         </div>
 
         <div className="text-right">
@@ -63,7 +63,12 @@ export default function BankCard({ bank, currency }: BankCardProps) {
             Updated
           </div>
 
-          <p className="mt-1 text-sm font-medium">{bank.updated}</p>
+          <p className="mt-1 text-sm font-medium">
+            {new Date(rate.updated_at).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </p>
         </div>
       </div>
 
@@ -71,7 +76,7 @@ export default function BankCard({ bank, currency }: BankCardProps) {
       <Link
         to="/banks/$bankId"
         params={{
-          bankId: bank.id,
+          bankId: String(bank.id),
         }}
         className="mt-5 flex h-10 items-center justify-center gap-2 rounded-lg border bg-background text-sm font-medium transition-colors hover:bg-muted"
       >

@@ -9,164 +9,16 @@ import {
 } from "recharts";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
+import type { CompareResponse } from "@/services/compare";
 type RateComparisonChartProps = {
   currency: string;
-};
-
-type BankRate = {
-  bank: string;
-  buy: number;
-  sell: number;
-};
-
-const ratesByCurrency: Record<string, BankRate[]> = {
-  USD: [
-    {
-      bank: "CBE",
-      buy: 144.85,
-      sell: 146.2,
-    },
-    {
-      bank: "Dashen",
-      buy: 144.9,
-      sell: 146.1,
-    },
-    {
-      bank: "Awash",
-      buy: 144.75,
-      sell: 146.05,
-    },
-    {
-      bank: "Abyssinia",
-      buy: 144.8,
-      sell: 146.15,
-    },
-    {
-      bank: "Coop",
-      buy: 144.7,
-      sell: 145.95,
-    },
-  ],
-
-  EUR: [
-    {
-      bank: "CBE",
-      buy: 169.4,
-      sell: 171.2,
-    },
-    {
-      bank: "Dashen",
-      buy: 169.6,
-      sell: 171.0,
-    },
-    {
-      bank: "Awash",
-      buy: 169.3,
-      sell: 170.9,
-    },
-    {
-      bank: "Abyssinia",
-      buy: 169.5,
-      sell: 171.1,
-    },
-    {
-      bank: "Coop",
-      buy: 169.2,
-      sell: 170.8,
-    },
-  ],
-
-  GBP: [
-    {
-      bank: "CBE",
-      buy: 195.1,
-      sell: 197.3,
-    },
-    {
-      bank: "Dashen",
-      buy: 195.4,
-      sell: 197.0,
-    },
-    {
-      bank: "Awash",
-      buy: 194.9,
-      sell: 196.9,
-    },
-    {
-      bank: "Abyssinia",
-      buy: 195.2,
-      sell: 197.1,
-    },
-    {
-      bank: "Coop",
-      buy: 194.8,
-      sell: 196.7,
-    },
-  ],
-
-  AED: [
-    {
-      bank: "CBE",
-      buy: 39.35,
-      sell: 39.8,
-    },
-    {
-      bank: "Dashen",
-      buy: 39.4,
-      sell: 39.75,
-    },
-    {
-      bank: "Awash",
-      buy: 39.3,
-      sell: 39.7,
-    },
-    {
-      bank: "Abyssinia",
-      buy: 39.35,
-      sell: 39.78,
-    },
-    {
-      bank: "Coop",
-      buy: 39.25,
-      sell: 39.65,
-    },
-  ],
-
-  SAR: [
-    {
-      bank: "CBE",
-      buy: 38.55,
-      sell: 39.0,
-    },
-    {
-      bank: "Dashen",
-      buy: 38.6,
-      sell: 38.95,
-    },
-    {
-      bank: "Awash",
-      buy: 38.5,
-      sell: 38.9,
-    },
-    {
-      bank: "Abyssinia",
-      buy: 38.55,
-      sell: 38.98,
-    },
-    {
-      bank: "Coop",
-      buy: 38.45,
-      sell: 38.85,
-    },
-  ],
+  data: CompareResponse["banks"];
 };
 
 export default function RateComparisonChart({
   currency,
+  data,
 }: RateComparisonChartProps) {
-  const data = ratesByCurrency[currency] ?? [];
-
   return (
     <Card className="overflow-hidden">
       <CardHeader>

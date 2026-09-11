@@ -4,7 +4,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import CurrencySelector from "@/components/compare-ui/CurrencySelector";
 import BankCard from "@/components/banks-ui/BankCard";
-import { banks } from "@/lib/mock/banks";
+import { useBanks } from "@/hooks/use-banks";
 
 export const Route = createFileRoute("/banks/")({
   component: BanksPage,
@@ -14,22 +14,43 @@ function BanksPage() {
   const [currency, setCurrency] = useState("USD");
   const [search, setSearch] = useState("");
 
+  const { data, isLoading, isError } = useBanks(currency);
+
+  const banks = data?.data ?? [];
+
   const filteredBanks = useMemo(() => {
     const query = search.trim().toLowerCase();
 
-    if (!query) return banks;
+    if (!query) {
+      return banks;
+    }
 
-    return banks.filter(
-      (bank) =>
-        bank.name.toLowerCase().includes(query) ||
-        bank.shortName.toLowerCase().includes(query),
+    return banks.filter((bank) =>
+      `${bank.name} ${bank.short_name}`.toLowerCase().includes(query),
     );
-  }, [search]);
+  }, [banks, search]);
+
+  if (isLoading) {
+    return (
+      <main className="flex min-h-[60vh] items-center justify-center">
+        <p className="text-sm text-muted-foreground">Loading banks...</p>
+      </main>
+    );
+  }
+
+  if (isError) {
+    return (
+      <main className="flex min-h-[60vh] items-center justify-center">
+        <p className="text-sm text-destructive">Failed to load banks.</p>
+      </main>
+    );
+  }
 
   return (
     <section className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Banks</h1>
+
         <p className="mt-1 text-sm text-muted-foreground">
           Compare exchange rates and explore Ethiopian banks.
         </p>
