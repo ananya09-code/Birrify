@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-
+import CurrencySelect from "@/components/converter-ui/CurrencySelect";
 import { useMarket } from "../hooks/use-market";
 import { actionLook, bankFilterFields } from "../lib/data";
-
 import { Hero } from "../components/dashbored-ui/Hero";
 import InstantConverter from "../components/dashbored-ui/InstantConverter";
 import ExchangeRateChart from "../components/common-ui/ExchangeRateChart";
@@ -11,18 +10,16 @@ import StatusCard from "../components/common-ui/StatusCard";
 import DataTable from "../components/common-ui/Table";
 import TableToolbar from "../components/common-ui/TableToolbar";
 import TablePagination from "../components/common-ui/TablePagination";
-
 import { useRates } from "../hooks/use-rates";
 import { rateColumns } from "../lib/ratescolumn";
-
+import { useMeta } from "../services/meta";
 export const Route = createFileRoute("/dashboard")({
   component: Dashboard,
 });
 
 function Dashboard() {
   const [bankSearch, setBankSearch] = useState("");
-
-  const currency = "USD";
+  const [currency, setCurrency] = useState("USD");
   const date = new Date().toISOString().slice(0, 10);
 
   const [bankFilters, setBankFilters] = useState({
@@ -32,7 +29,8 @@ function Dashboard() {
   });
 
   const [page, setPage] = useState(1);
-
+  const { data: meta } = useMeta();
+  console.log(meta);
   const {
     data: market,
     isLoading: marketLoading,
@@ -111,11 +109,28 @@ function Dashboard() {
 
   return (
     <main className="w-full">
-      <div className="mx-auto w-full max-w-7xl px-2 py-6 sm:px-10 lg:px-6">
+      <div className="mx-auto w-full max-w-7xl px-3 py-5 sm:px-5 lg:px-6">
         <Hero />
 
+        {/* Currency */}
+        <div className="mt-5 flex justify-between item-center  bg-gray-50  px-8 py-3 text-sm font-medium text-gray-700 shadow-sm border border-gray-300 rounded-lg">
+          <div>
+            <p className="text-sm font-medium">Market Currency</p>
+            <p className="text-xs text-muted-foreground">
+              View rates and market data in your selected currency.
+            </p>
+          </div>
+
+          <CurrencySelect
+            value={currency}
+            onChange={setCurrency}
+            currencies={meta?.currencies ?? []}
+            typeofuse="two"
+          />
+        </div>
+
         {/* Stats */}
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat) => (
             <StatusCard
               key={stat.title}
@@ -128,16 +143,22 @@ function Dashboard() {
           ))}
         </div>
 
-        {/* Exchange Rate Chart + Converter */}
-        <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
+        {/* Chart + Converter */}
+        <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
           <ExchangeRateChart />
-
           <InstantConverter />
         </div>
 
         {/* Banks */}
-        <div className="mt-6">
-          <div className="mb-3 flex items-center justify-end">
+        <div className="mt-5">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <div>
+              <h2 className="text-base font-semibold">Bank Rates</h2>
+              <p className="text-xs text-muted-foreground">
+                Latest rates across supported banks.
+              </p>
+            </div>
+
             <TableToolbar
               search={bankSearch}
               onSearchChange={setBankSearch}

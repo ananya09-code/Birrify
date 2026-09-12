@@ -12,7 +12,7 @@ from app.api.v1 import rates as public_rates
 from app.api.v1 import banks as public_banks
 from app.api.v1 import history as public_history
 
-
+from app.api.routes import meta
 app = FastAPI(
     title="Birrify API",
     version="1.0.0",
@@ -35,7 +35,7 @@ app.include_router(rates.router)
 app.include_router(history.router)
 app.include_router(market.router)
 app.include_router(info.router)
-
+app.include_router(meta.router)
 
 # Public Developer API
 app.include_router(public_rates.router)
