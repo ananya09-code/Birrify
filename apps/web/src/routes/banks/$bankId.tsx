@@ -10,6 +10,7 @@ import BankDetailsHeader from "@/components/banks-ui/BankDetailsHeader";
 import BankRateHistory from "@/components/banks-ui/BankRateHistory";
 import OtherCurrencyRates from "@/components/banks-ui/OtherCurrencyRates";
 import BankAbout from "@/components/banks-ui/BankAbout";
+type Period = "7D" | "30D" | "90D" | "1Y";
 
 export const Route = createFileRoute("/banks/$bankId")({
   component: BankDetailsPage,
@@ -19,7 +20,7 @@ function BankDetailsPage() {
   const { bankId } = Route.useParams();
 
   const [currency, setCurrency] = useState("USD");
-  const [period, setPeriod] = useState("7D");
+  const [period, setPeriod] = useState<Period>("7D");
 
   const { data: bank, isLoading, isError } = useBank(bankId);
 

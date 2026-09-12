@@ -114,7 +114,6 @@ function NavigationItem({
   return (
     <SidebarMenuItem>
       <SidebarMenuButton
-        asChild
         tooltip={label}
         className="
           group

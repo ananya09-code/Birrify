@@ -1,6 +1,5 @@
 import type { Column } from "@/components/common-ui/Table";
-
-import { TrendingDown, TrendingUp } from "lucide-react";
+import { CurrencyFlag } from "@/components/common-ui/CurrencyFlag";
 
 export type Rate = {
   id: number;
@@ -19,8 +18,8 @@ export const rateColumns: Column<Rate>[] = [
     header: "Currency",
     render: (rate) => (
       <div className="flex items-center gap-3">
-        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-xs font-semibold">
-          {rate.currency}
+        <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border bg-background p-2">
+          <CurrencyFlag currency={rate.currency} size="size-full" />
         </div>
 
         <div className="min-w-0">

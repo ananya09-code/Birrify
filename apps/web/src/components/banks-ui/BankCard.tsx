@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { ArrowRight, Clock3 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-
 import type { Bank } from "@/services/banks";
+import { banklogo } from "@/lib/data";
 
 type BankCardProps = {
   bank: Bank;
@@ -9,16 +10,30 @@ type BankCardProps = {
 };
 
 export default function BankCard({ bank, currency }: BankCardProps) {
+  const [imageError, setImageError] = useState(false);
+
   const rate = bank.rates.find((item) => item.currency === currency);
+  const logo = banklogo[bank.short_name];
 
   if (!rate) return null;
 
   return (
     <article className="group flex h-full flex-col rounded-xl border bg-card p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
       {/* Bank header */}
-      <div className="flex items-start gap-3">
-        <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-sm font-bold text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">
-          {bank.short_name.slice(0, 3).toUpperCase()}
+      <div className="flex items-center gap-3">
+        <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border bg-background p-2">
+          {logo && !imageError ? (
+            <img
+              src={logo}
+              alt={`${bank.name} logo`}
+              className="size-full scale-150 object-contain"
+              onError={() => setImageError(true)}
+            />
+          ) : (
+            <span className="text-sm font-semibold text-muted-foreground">
+              {bank.short_name.slice(0, 3).toUpperCase()}
+            </span>
+          )}
         </div>
 
         <div className="min-w-0">

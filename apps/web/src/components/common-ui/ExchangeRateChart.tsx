@@ -187,7 +187,7 @@ export default function ExchangeRateChart() {
                     border: "1px solid hsl(var(--border))",
                     background: "hsl(var(--background))",
                   }}
-                  formatter={(value: number) => [
+                  formatter={(value) => [
                     `${Number(value).toFixed(2)} ETB`,
                     rateLabels[rateType],
                   ]}

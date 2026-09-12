@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { getBankColumns } from "@/lib/bankcolumn";
 import CompareHeader from "../components/compare-ui/CompareHeader";
 import RateComparisonChart from "../components/compare-ui/RateComparisonChart";
 import { compareColumns } from "@/lib/comparecolumn";
@@ -16,7 +15,6 @@ export const Route = createFileRoute("/compare")({
 function ComparePage() {
   const [currency, setCurrency] = useState("USD");
   const [date, setDate] = useState<Date>(new Date());
-  const columns = getBankColumns(currency);
   // Backend expects YYYY-MM-DD
   const formattedDate = date.toISOString().slice(0, 10);
 
@@ -112,7 +110,7 @@ function ComparePage() {
               {currency} / ETB
             </span>
           </div>
-          <DataTable columns={compareColumns} data={compareData.banks} />
+          <DataTable title="Bank comparison" columns={compareColumns} data={compareData.banks} />
 
           <div className="overflow-hidden rounded-xl border bg-card"></div>
         </section>

@@ -5,6 +5,7 @@ from app.api.routes import rates
 from app.api.routes import history
 from app.api.routes import compare
 from app.api.routes import banks
+from app.api.routes import info
 app = FastAPI(
     title="Birrify API",
     version="1.0.0",
@@ -23,6 +24,7 @@ app.include_router(compare.router)
 app.include_router(rates.router)
 app.include_router(history.router)
 app.include_router(market.router)
+app.include_router(info.router)
 
 
 @app.get("/health")

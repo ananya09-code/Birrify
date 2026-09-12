@@ -1,5 +1,30 @@
+import { useState } from "react";
 import type { Column } from "@/components/common-ui/Table";
 import type { Bank } from "@/services/banks";
+import { banklogo } from "@/lib/data";
+
+function BankLogo({ bank }: { bank: Bank }) {
+  const [imageError, setImageError] = useState(false);
+
+  const logo = banklogo[bank.short_name];
+
+  return (
+    <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border bg-background p-2">
+      {logo && !imageError ? (
+        <img
+          src={logo}
+          alt={`${bank.name} logo`}
+          className="size-full scale-150 object-contain"
+          onError={() => setImageError(true)}
+        />
+      ) : (
+        <span className="text-sm font-semibold text-muted-foreground">
+          {bank.short_name.slice(0, 3).toUpperCase()}
+        </span>
+      )}
+    </div>
+  );
+}
 
 export function getBankColumns(currency: string): Column<Bank>[] {
   return [
@@ -8,9 +33,7 @@ export function getBankColumns(currency: string): Column<Bank>[] {
       header: "Bank",
       render: (bank) => (
         <div className="flex items-center gap-3">
-          <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-xs font-semibold text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">
-            {bank.short_name.slice(0, 3).toUpperCase()}
-          </div>
+          <BankLogo bank={bank} />
 
           <div className="min-w-0">
             <p className="truncate font-medium">{bank.name}</p>

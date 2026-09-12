@@ -3,6 +3,7 @@ export type HistoryPoint = {
   buy: number;
   sell: number;
   average: number;
+  spread: number;
 };
 
 export type RateChange = {

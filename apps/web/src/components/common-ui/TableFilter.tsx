@@ -44,7 +44,7 @@ export default function TableFilter({
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
+      <PopoverTrigger>
         <Button variant="outline" className="gap-2">
           <Filter className="size-4" />
           Filter

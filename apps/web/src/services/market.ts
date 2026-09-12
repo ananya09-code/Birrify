@@ -13,6 +13,7 @@ export type MarketPoint = {
   banks_count: number;
   last_updated: string;
 };
+export type MarketsResponse = { date: string; data: MarketPoint[] };
 
 type GetMarketParams = {
   currency?: string;
@@ -39,5 +40,12 @@ export async function getMarket({
     throw new Error("Failed to fetch market");
   }
 
+  return response.json();
+}
+
+export async function getMarkets(date?: string): Promise<MarketsResponse> {
+  const params = date ? `?date=${encodeURIComponent(date)}` : "";
+  const response = await fetch(`http://127.0.0.1:8000/api/market/all${params}`);
+  if (!response.ok) throw new Error("Failed to fetch markets");
   return response.json();
 }

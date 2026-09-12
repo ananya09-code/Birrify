@@ -1,5 +1,30 @@
+import { useState } from "react";
 import type { Column } from "@/components/common-ui/Table";
 import type { CompareBank } from "@/services/compare";
+import { banklogo } from "@/lib/data";
+
+function BankLogo({ bank }: { bank: string }) {
+  const [imageError, setImageError] = useState(false);
+
+  const logo = banklogo[bank];
+
+  return (
+    <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border bg-background p-2">
+      {logo && !imageError ? (
+        <img
+          src={logo}
+          alt={`${bank} logo`}
+          className="size-full scale-100 object-contain"
+          onError={() => setImageError(true)}
+        />
+      ) : (
+        <span className="text-sm font-semibold text-muted-foreground">
+          {bank.slice(0, 3).toUpperCase()}
+        </span>
+      )}
+    </div>
+  );
+}
 
 export const compareColumns: Column<CompareBank>[] = [
   {
@@ -7,9 +32,7 @@ export const compareColumns: Column<CompareBank>[] = [
     header: "Bank",
     render: (bank) => (
       <div className="flex items-center gap-3">
-        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-xs font-semibold text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">
-          {bank.bank.slice(0, 3).toUpperCase()}
-        </div>
+        <BankLogo bank={bank.bank} />
 
         <p className="font-medium">{bank.bank}</p>
       </div>

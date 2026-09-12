@@ -6,7 +6,8 @@ import ConverterCard from "@/components/converter-ui/ConverterCard";
 import PopularConversions from "@/components/converter-ui/PopularConversions";
 import RateInfo from "@/components/converter-ui/RateInfo";
 import { useMarket } from "@/hooks/use-market";
-import { SUPPORTED_CURRENCIES } from "@/components/converter-ui/CurrencySelect";
+import { useMarkets } from "@/hooks/use-markets";
+import { useInfo } from "@/hooks/use-info";
 
 type RateType = "average" | "buy" | "sell";
 
@@ -16,7 +17,11 @@ export const Route = createFileRoute("/converter")({
 
 function ConverterPage() {
   const [amount, setAmount] = useState("1000");
-  const [fromCurrency, setFromCurrency] = useState("USD");
+  const { data: info, isLoading: infoLoading, isError: infoError } = useInfo();
+  const currencies = info?.currencies ?? [];
+  const foreignCurrencies = currencies.filter((currency) => currency.code !== "ETB");
+  const defaultForeign = foreignCurrencies[0]?.code ?? "USD";
+  const [fromCurrency, setFromCurrency] = useState(defaultForeign);
   const [toCurrency, setToCurrency] = useState("ETB");
   const [rateType, setRateType] = useState<RateType>("average");
 
@@ -27,6 +32,7 @@ function ConverterPage() {
   const toMarket = useMarket({
     currency: toCurrency === "ETB" ? "USD" : toCurrency,
   });
+  const markets = useMarkets();
 
   const fromData = fromCurrency === "ETB" ? null : fromMarket.data;
 
@@ -38,44 +44,13 @@ function ConverterPage() {
     return (market.average_buy + market.average_sell) / 2;
   }
 
-  function getRate(
-    currency: string,
-    market: typeof fromData,
-    direction: "source" | "target",
-  ) {
-    if (currency === "ETB") {
-      return 1;
-    }
-
-    if (!market) {
-      return 0;
-    }
-
-    if (rateType === "average") {
-      return getAverage(market.market);
-    }
-
-    if (rateType === "buy") {
-      return market.market.average_buy;
-    }
-
-    if (rateType === "sell") {
-      return market.market.average_sell;
-    }
-
-    return direction === "source"
-      ? market.market.average_buy
-      : market.market.average_sell;
-  }
-
   const rate = useMemo(() => {
     if (fromCurrency === toCurrency) {
       return 1;
     }
 
-    const sourceRate = getRate(fromCurrency, fromData, "source");
-
-    const targetRate = getRate(toCurrency, toData, "target");
+    const sourceRate = fromCurrency === "ETB" ? 1 : rateType === "buy" ? fromData?.market.average_buy ?? 0 : rateType === "sell" ? fromData?.market.average_sell ?? 0 : fromData ? getAverage(fromData.market) : 0;
+    const targetRate = toCurrency === "ETB" ? 1 : rateType === "buy" ? toData?.market.average_buy ?? 0 : rateType === "sell" ? toData?.market.average_sell ?? 0 : toData ? getAverage(toData.market) : 0;
 
     if (!sourceRate || !targetRate) {
       return 0;
@@ -128,15 +103,10 @@ function ConverterPage() {
     setToCurrency("ETB");
   }
 
-  const popularCurrencies = SUPPORTED_CURRENCIES.filter(
+  const popularCurrencies = currencies.filter(
     (currency) => currency.code !== "ETB",
   ).map((currency) => {
-    const market =
-      currency.code === fromCurrency
-        ? fromData
-        : currency.code === toCurrency
-          ? toData
-          : undefined;
+    const market = markets.data?.data.find((item) => item.currency === currency.code);
 
     return {
       code: currency.code,
@@ -145,11 +115,11 @@ function ConverterPage() {
   });
 
   const fromName =
-    SUPPORTED_CURRENCIES.find((currency) => currency.code === fromCurrency)
+    currencies.find((currency) => currency.code === fromCurrency)
       ?.name ?? fromCurrency;
 
   const toName =
-    SUPPORTED_CURRENCIES.find((currency) => currency.code === toCurrency)
+    currencies.find((currency) => currency.code === toCurrency)
       ?.name ?? toCurrency;
 
   return (
@@ -179,13 +149,18 @@ function ConverterPage() {
         fromName={fromName}
         toName={toName}
         updatedAt={fromData?.last_updated ?? toData?.last_updated}
-        isLoading={isLoading}
+        isLoading={isLoading || infoLoading || markets.isLoading}
         onAmountChange={handleAmountChange}
         onFromCurrencyChange={setFromCurrency}
         onToCurrencyChange={setToCurrency}
         onRateTypeChange={setRateType}
         onSwap={handleSwap}
+        currencies={currencies}
       />
+
+      {infoError || fromMarket.isError || toMarket.isError || markets.isError ? (
+        <p className="rounded-lg border border-destructive/30 p-3 text-sm text-destructive">Unable to load one or more current market rates. Please retry.</p>
+      ) : null}
 
       <PopularConversions
         currencies={popularCurrencies}

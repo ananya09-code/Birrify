@@ -77,8 +77,8 @@ export default function RateComparisonChart({
                 cursor={{
                   fill: "hsl(var(--muted) / 0.4)",
                 }}
-                formatter={(value: number, name: string) => [
-                  value.toFixed(2),
+              formatter={(value, name) => [
+                  Number(value ?? 0).toFixed(2),
                   name === "buy" ? "Buy" : "Sell",
                 ]}
                 labelFormatter={(label) => `${label} Bank`}

@@ -22,7 +22,7 @@ export default function DateSelector({
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
+      <PopoverTrigger>
         <Button
           variant="outline"
           className="w-full justify-start gap-2 sm:w-[180px]"

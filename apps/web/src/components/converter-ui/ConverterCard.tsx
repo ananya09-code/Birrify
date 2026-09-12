@@ -1,6 +1,6 @@
 import { ArrowDownUp } from "lucide-react";
 
-import CurrencySelect, { SUPPORTED_CURRENCIES } from "./CurrencySelect";
+import CurrencySelect, { type CurrencyOption } from "./CurrencySelect";
 
 type RateType = "average" | "buy" | "sell";
 
@@ -20,6 +20,7 @@ type ConverterCardProps = {
   onToCurrencyChange: (value: string) => void;
   onRateTypeChange: (value: RateType) => void;
   onSwap: () => void;
+  currencies: CurrencyOption[];
 };
 
 function formatNumber(value: number) {
@@ -29,13 +30,6 @@ function formatNumber(value: number) {
   }).format(value);
 }
 
-function getCurrencyName(code: string) {
-  return (
-    SUPPORTED_CURRENCIES.find((currency) => currency.code === code)?.name ??
-    code
-  );
-}
-
 export default function ConverterCard({
   amount,
   fromCurrency,
@@ -43,8 +37,8 @@ export default function ConverterCard({
   rateType,
   result,
   rate,
-  fromName = getCurrencyName(fromCurrency),
-  toName = getCurrencyName(toCurrency),
+  fromName = fromCurrency,
+  toName = toCurrency,
   updatedAt,
   isLoading = false,
   onAmountChange,
@@ -52,6 +46,7 @@ export default function ConverterCard({
   onToCurrencyChange,
   onRateTypeChange,
   onSwap,
+  currencies,
 }: ConverterCardProps) {
   return (
     <div className="overflow-hidden rounded-2xl border bg-card shadow-sm">
@@ -78,6 +73,7 @@ export default function ConverterCard({
                 <CurrencySelect
                   value={fromCurrency}
                   onChange={onFromCurrencyChange}
+                  currencies={currencies}
                 />
               </div>
 
@@ -114,6 +110,7 @@ export default function ConverterCard({
                 <CurrencySelect
                   value={toCurrency}
                   onChange={onToCurrencyChange}
+                  currencies={currencies}
                 />
               </div>
 

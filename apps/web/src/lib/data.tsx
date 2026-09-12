@@ -1,5 +1,54 @@
 import { Minus, TrendingDown, TrendingUp } from "lucide-react";
-
+import cbe from "@/assets/cbe.jpg";
+import boa from "@/assets/boa.jpg";
+import dashen from "@/assets/Dashen.png";
+import awash from "@/assets/Awash.jpg";
+import nib from "@/assets/Nib.png";
+import cbo from "@/assets/Coop.jpg";
+import hibret from "@/assets/Hibret.jpg";
+import wegagen from "@/assets/Wogagen.png";
+import zemen from "@/assets/Zemen.jpg";
+import bunna from "@/assets/Bunna.png";
+import berhan from "@/assets/Berhan.jpg";
+import enat from "@/assets/Enat.png";
+import oromia from "@/assets/Oromia.png";
+import addis from "@/assets/Addis.jpg";
+import hijra from "@/assets/Hijra.png";
+import siinqee from "@/assets/Siinqee.png";
+import rammis from "@/assets/Rammis.png";
+import global from "@/assets/Global.svg";
+import gadaa from "@/assets/Gadaa.png";
+import development from "@/assets/Development.png";
+import ahadu from "@/assets/Ahadu.svg";
+import gohbetoch from "@/assets/GohBetoch.png";
+import amhara from "@/assets/Amhara.png";
+import abay from "@/assets/abay.webp";
+export const banklogo = {
+  cbe: cbe,
+  boa: boa,
+  dashen: dashen,
+  awash: awash,
+  nib: nib,
+  cbo: cbo,
+  hibret: hibret,
+  wegagen: wegagen,
+  zemen: zemen,
+  bunna: bunna,
+  berhan: berhan,
+  enat: enat,
+  oromia: oromia,
+  addis: addis,
+  global: global,
+  development: development,
+  siinqee: siinqee,
+  rammis: rammis,
+  gadaa: gadaa,
+  ahadu: ahadu,
+  gohbetoch: gohbetoch,
+  hijra: hijra,
+  amhara: amhara,
+  abay: abay,
+};
 export const data = {
   stats: [
     {

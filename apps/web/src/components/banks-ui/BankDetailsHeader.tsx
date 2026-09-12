@@ -1,6 +1,8 @@
 import { ArrowLeft, Clock3 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
+import { useState } from "react";
+import { banklogo } from "@/lib/data";
 import CurrencySelector from "@/components/compare-ui/CurrencySelector";
 
 type BankDetailsHeaderProps = {
@@ -18,6 +20,9 @@ export default function BankDetailsHeader({
   currency,
   onCurrencyChange,
 }: BankDetailsHeaderProps) {
+  const logo = banklogo[shortName];
+
+  const [imageError, setImageError] = useState(false);
   return (
     <>
       <Link
@@ -31,8 +36,19 @@ export default function BankDetailsHeader({
       <section className="rounded-xl border bg-card p-5 shadow-sm sm:p-6">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex min-w-0 items-center gap-4">
-            <div className="flex size-14 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-lg font-bold text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">
-              {shortName.slice(0, 3).toUpperCase()}
+            <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border bg-background p-2">
+              {logo && !imageError ? (
+                <img
+                  src={logo}
+                  alt={`${name} logo`}
+                  className="size-full scale-150 object-contain"
+                  onError={() => setImageError(true)}
+                />
+              ) : (
+                <span className="text-sm font-semibold text-muted-foreground">
+                  {shortName.slice(0, 3).toUpperCase()}
+                </span>
+              )}
             </div>
 
             <div className="min-w-0">

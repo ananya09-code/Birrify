@@ -1,4 +1,5 @@
 import { Coins } from "lucide-react";
+import { useInfo } from "@/hooks/use-info";
 
 import {
   Select,
@@ -13,28 +14,6 @@ export type Currency = {
   name: string;
 };
 
-export const currencies: Currency[] = [
-  {
-    code: "USD",
-    name: "US Dollar",
-  },
-  {
-    code: "EUR",
-    name: "Euro",
-  },
-  {
-    code: "GBP",
-    name: "British Pound",
-  },
-  {
-    code: "AED",
-    name: "UAE Dirham",
-  },
-  {
-    code: "SAR",
-    name: "Saudi Riyal",
-  },
-];
 
 type CurrencySelectorProps = {
   value: string;
@@ -45,8 +24,10 @@ export default function CurrencySelector({
   value,
   onChange,
 }: CurrencySelectorProps) {
+  const { data } = useInfo();
+  const currencies = data?.currencies.filter((currency) => currency.code !== data.base_currency) ?? [];
   return (
-    <Select value={value} onValueChange={onChange}>
+    <Select value={value} onValueChange={(nextValue) => nextValue && onChange(nextValue)}>
       <SelectTrigger className="w-full sm:w-[155px]">
         <Coins className="mr-2 size-4 text-blue-600" />
         <SelectValue />
