@@ -10,17 +10,31 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AlertsRouteImport } from './routes/Alerts'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as BanksRouteImport } from './routes/banks'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as ConverterRouteImport } from './routes/converter'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DevelopersRouteImport } from './routes/developers'
 import { Route as HistoryRouteImport } from './routes/history'
+import { Route as StockmarketRouteImport } from './routes/stockmarket'
 import { Route as BanksIndexRouteImport } from './routes/banks/index'
 import { Route as BanksBankIdRouteImport } from './routes/banks/$bankId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlertsRoute = AlertsRouteImport.update({
+  id: '/Alerts',
+  path: '/Alerts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BanksRoute = BanksRouteImport.update({
@@ -43,9 +57,19 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DevelopersRoute = DevelopersRouteImport.update({
+  id: '/developers',
+  path: '/developers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HistoryRoute = HistoryRouteImport.update({
   id: '/history',
   path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StockmarketRoute = StockmarketRouteImport.update({
+  id: '/stockmarket',
+  path: '/stockmarket',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BanksIndexRoute = BanksIndexRouteImport.update({
@@ -61,31 +85,43 @@ const BanksBankIdRoute = BanksBankIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/Alerts': typeof AlertsRoute
+  '/about': typeof AboutRoute
   '/banks': typeof BanksRouteWithChildren
   '/compare': typeof CompareRoute
   '/converter': typeof ConverterRoute
   '/dashboard': typeof DashboardRoute
+  '/developers': typeof DevelopersRoute
   '/history': typeof HistoryRoute
+  '/stockmarket': typeof StockmarketRoute
   '/banks/$bankId': typeof BanksBankIdRoute
   '/banks/': typeof BanksIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/Alerts': typeof AlertsRoute
+  '/about': typeof AboutRoute
   '/compare': typeof CompareRoute
   '/converter': typeof ConverterRoute
   '/dashboard': typeof DashboardRoute
+  '/developers': typeof DevelopersRoute
   '/history': typeof HistoryRoute
+  '/stockmarket': typeof StockmarketRoute
   '/banks/$bankId': typeof BanksBankIdRoute
   '/banks': typeof BanksIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/Alerts': typeof AlertsRoute
+  '/about': typeof AboutRoute
   '/banks': typeof BanksRouteWithChildren
   '/compare': typeof CompareRoute
   '/converter': typeof ConverterRoute
   '/dashboard': typeof DashboardRoute
+  '/developers': typeof DevelopersRoute
   '/history': typeof HistoryRoute
+  '/stockmarket': typeof StockmarketRoute
   '/banks/$bankId': typeof BanksBankIdRoute
   '/banks/': typeof BanksIndexRoute
 }
@@ -93,41 +129,57 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/Alerts'
+    | '/about'
     | '/banks'
     | '/compare'
     | '/converter'
     | '/dashboard'
+    | '/developers'
     | '/history'
+    | '/stockmarket'
     | '/banks/$bankId'
     | '/banks/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/Alerts'
+    | '/about'
     | '/compare'
     | '/converter'
     | '/dashboard'
+    | '/developers'
     | '/history'
+    | '/stockmarket'
     | '/banks/$bankId'
     | '/banks'
   id:
     | '__root__'
     | '/'
+    | '/Alerts'
+    | '/about'
     | '/banks'
     | '/compare'
     | '/converter'
     | '/dashboard'
+    | '/developers'
     | '/history'
+    | '/stockmarket'
     | '/banks/$bankId'
     | '/banks/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AlertsRoute: typeof AlertsRoute
+  AboutRoute: typeof AboutRoute
   BanksRoute: typeof BanksRouteWithChildren
   CompareRoute: typeof CompareRoute
   ConverterRoute: typeof ConverterRoute
   DashboardRoute: typeof DashboardRoute
+  DevelopersRoute: typeof DevelopersRoute
   HistoryRoute: typeof HistoryRoute
+  StockmarketRoute: typeof StockmarketRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -137,6 +189,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/Alerts': {
+      id: '/Alerts'
+      path: '/Alerts'
+      fullPath: '/Alerts'
+      preLoaderRoute: typeof AlertsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/banks': {
@@ -167,11 +233,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/developers': {
+      id: '/developers'
+      path: '/developers'
+      fullPath: '/developers'
+      preLoaderRoute: typeof DevelopersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/history': {
       id: '/history'
       path: '/history'
       fullPath: '/history'
       preLoaderRoute: typeof HistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stockmarket': {
+      id: '/stockmarket'
+      path: '/stockmarket'
+      fullPath: '/stockmarket'
+      preLoaderRoute: typeof StockmarketRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/banks/': {
@@ -205,11 +285,15 @@ const BanksRouteWithChildren = BanksRoute._addFileChildren(BanksRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AlertsRoute: AlertsRoute,
+  AboutRoute: AboutRoute,
   BanksRoute: BanksRouteWithChildren,
   CompareRoute: CompareRoute,
   ConverterRoute: ConverterRoute,
   DashboardRoute: DashboardRoute,
+  DevelopersRoute: DevelopersRoute,
   HistoryRoute: HistoryRoute,
+  StockmarketRoute: StockmarketRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

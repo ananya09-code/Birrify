@@ -59,45 +59,28 @@ const navigation = [
     section: "main",
   },
   {
-    label: "Analytics",
+    label: "Stock Market",
     icon: ChartNoAxesCombined,
-    href: "/analytics",
+    href: "/stockmarket",
     section: "main",
   },
   {
-    label: "Alerts",
+    label: "Alerts & Notifications",
     icon: Bell,
-    href: "/alerts",
+    href: "/Alerts",
     section: "main",
   },
   {
     label: "API Docs",
     icon: BookOpen,
-    href: "/api",
+    href: "/developers",
     section: "developer",
   },
-  {
-    label: "Data Health",
-    icon: Database,
-    href: "/data-health",
-    section: "developer",
-  },
-  {
-    label: "API Keys",
-    icon: KeyRound,
-    href: "/api-keys",
-    section: "developer",
-  },
+
   {
     label: "About",
     icon: Info,
     href: "/about",
-    section: "other",
-  },
-  {
-    label: "Settings",
-    icon: Settings,
-    href: "/settings",
     section: "other",
   },
 ];
