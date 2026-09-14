@@ -44,9 +44,7 @@ export async function getHistory({
   params.set("currency", currency);
   params.set("period", period);
 
-  const response = await fetch(
-    `${API_URL}/api/v1/history?${params.toString()}`,
-  );
+  const response = await fetch(`${API_URL}/api/history?${params.toString()}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch rate history");

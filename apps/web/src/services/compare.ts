@@ -32,9 +32,7 @@ export async function getCompareData(
   params.set("date", date);
   params.set("currency", currency);
 
-  const response = await fetch(
-    `${API_URL}/api/v1/compare?${params.toString()}`,
-  );
+  const response = await fetch(`${API_URL}/api/compare?${params.toString()}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch comparison data");

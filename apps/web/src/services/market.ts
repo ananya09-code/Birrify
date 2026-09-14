@@ -33,7 +33,7 @@ export async function getMarket({
     params.set("date", date);
   }
 
-  const response = await fetch(`${API_URL}/api/v1/market?${params.toString()}`);
+  const response = await fetch(`${API_URL}/api/market?${params.toString()}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch market");
@@ -44,7 +44,7 @@ export async function getMarket({
 
 export async function getMarkets(date?: string): Promise<MarketsResponse> {
   const params = date ? `?date=${encodeURIComponent(date)}` : "";
-  const response = await fetch(`${API_URL}/api/v1/markets${params}`);
+  const response = await fetch(`${API_URL}/api/markets${params}`);
   if (!response.ok) throw new Error("Failed to fetch markets");
   return response.json();
 }
