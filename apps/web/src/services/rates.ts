@@ -22,7 +22,7 @@ export async function getRates({
     params.set("date", date);
   }
 
-  const response = await fetch(`${API_URL}/api/rates?${params.toString()}`);
+  const response = await fetch(`${API_URL}/api/rates/?${params.toString()}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch rates");

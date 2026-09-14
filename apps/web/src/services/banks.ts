@@ -102,7 +102,7 @@ export async function getBankHistory(
   });
 
   const response = await fetch(
-    `${API_URL}/api/history/${bankId}?${params.toString()}`,
+    `${API_URL}/api/history/${bankId}/?${params.toString()}`,
   );
 
   if (!response.ok) {
