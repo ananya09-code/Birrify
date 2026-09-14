@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import CompareHeader from "../components/compare-ui/CompareHeader";
-import RateComparisonChart from "../components/compare-ui/RateComparisonChart";
+import CompareHeader from "@/components/compare-ui/CompareHeader";
+import RateComparisonChart from "@/components/compare-ui/RateComparisonChart";
 import { compareColumns } from "@/lib/comparecolumn";
-import StatusCard from "../components/common-ui/StatusCard";
-import DataTable from "../components/common-ui/Table";
+import StatusCard from "@/components/common-ui/StatusCard";
+import DataTable from "@/components/common-ui/Table";
 
-import { useCompareData } from "../hooks/use-compare";
+import { useCompareData } from "@/hooks/use-compare";
 
-export const Route = createFileRoute("/compare")({
+export const Route = createFileRoute("/_dashboard/compare")({
   component: ComparePage,
 });
 
@@ -46,7 +46,7 @@ function ComparePage() {
 
   return (
     <main className="w-full">
-      <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-2">
         {/* Header */}
         <CompareHeader
           currency={currency}
@@ -95,22 +95,22 @@ function ComparePage() {
 
         {/* Table */}
         <section className="mt-8">
-          <div className="mb-4 flex items-end justify-between gap-4">
+          <div className="mb-4 flex items-end justify-between gap-4 border-b p-5 text-xs text-muted-foreground">
             <div>
-              <h2 className="text-lg font-semibold tracking-tight">
-                Bank Comparison
-              </h2>
-
               <p className="mt-1 text-sm text-muted-foreground">
                 Detailed {currency} rates across Ethiopian banks.
               </p>
             </div>
 
-            <span className="hidden rounded-md bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-600 dark:bg-blue-950/40 dark:text-blue-400 sm:block">
+            <span className="hidden rounded-md bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-600  shadow-md  sm:block">
               {currency} / ETB
             </span>
           </div>
-          <DataTable title="Bank comparison" columns={compareColumns} data={compareData.banks} />
+          <DataTable
+            title="Bank comparison"
+            columns={compareColumns}
+            data={compareData.banks}
+          />
 
           <div className="overflow-hidden rounded-xl border bg-card"></div>
         </section>

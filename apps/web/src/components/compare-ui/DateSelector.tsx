@@ -32,7 +32,6 @@ export default function DateSelector({
           <span>{format(selectedDate, "MMM d, yyyy")}</span>
         </Button>
       </PopoverTrigger>
-
       <PopoverContent className="w-auto p-0" align="end">
         <Calendar
           mode="single"
@@ -42,8 +41,12 @@ export default function DateSelector({
               onDateChange(newDate);
             }
           }}
-        />
-      </PopoverContent>
+          classNames={{
+            day_button:
+              "data-[selected-single=true]:bg-blue-600 data-[selected-single=true]:text-white data-[selected-single=true]:hover:bg-blue-600",
+          }}
+        />{" "}
+      </PopoverContent>{" "}
     </Popover>
   );
 }

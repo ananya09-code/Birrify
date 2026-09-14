@@ -23,7 +23,6 @@ import { useHistory } from "@/hooks/use-history";
 type Currency = "USD" | "EUR" | "GBP";
 type RateType = "buy" | "sell" | "average";
 type Period = "7D" | "30D" | "90D" | "1Y";
-
 const currencies: Currency[] = ["USD", "EUR", "GBP"];
 
 const periods: Period[] = ["7D", "30D", "90D", "1Y"];
@@ -36,9 +35,14 @@ const rateLabels: Record<RateType, string> = {
 
 export default function ExchangeRateChart() {
   const [currency, setCurrency] = useState<Currency>("USD");
-  const [rateType, setRateType] = useState<RateType>("average");
+  const [rateType, setRateType] = useState<RateType>("buy");
   const [period, setPeriod] = useState<Period>("7D");
-
+  const rateColor =
+    rateType === "buy"
+      ? "#16A34A"
+      : rateType === "sell"
+        ? "#DC2626"
+        : "#2563EB";
   const { data, isLoading, isError } = useHistory({
     currency,
     period,
@@ -196,7 +200,7 @@ export default function ExchangeRateChart() {
                 <Line
                   type="monotone"
                   dataKey={rateType}
-                  stroke="currentColor"
+                  stroke={rateColor}
                   strokeWidth={2}
                   dot={false}
                   activeDot={{ r: 4 }}

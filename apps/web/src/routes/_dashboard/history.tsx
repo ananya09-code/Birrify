@@ -7,7 +7,7 @@ import HistoryChart from "@/components/history-ui/HistoryChart";
 import HistoryTable from "@/components/history-ui/HistoryTable";
 import { useRateHistory } from "@/hooks/use-historypage";
 type Period = "7D" | "30D" | "90D" | "1Y";
-export const Route = createFileRoute("/history")({ component: HistoryPage });
+export const Route = createFileRoute("/_dashboard/history")({ component: HistoryPage });
 function HistoryPage() {
   const [currency, setCurrency] = useState("USD");
   const [period, setPeriod] = useState<Period>("7D");
@@ -31,8 +31,7 @@ function HistoryPage() {
     );
   }
   return (
-    <main className="space-y-6">
-      {" "}
+    <main className="space-y-6 px-4 sm:px-6 lg:px-8">
       <HistoryHeader currency={currency} />{" "}
       <HistoryFilters
         currency={currency}

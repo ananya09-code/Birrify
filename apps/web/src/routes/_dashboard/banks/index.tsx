@@ -6,7 +6,7 @@ import CurrencySelector from "@/components/compare-ui/CurrencySelector";
 import BankCard from "@/components/banks-ui/BankCard";
 import { useBanks } from "@/hooks/use-banks";
 
-export const Route = createFileRoute("/banks/")({
+export const Route = createFileRoute("/_dashboard/banks/")({
   component: BanksPage,
 });
 

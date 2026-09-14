@@ -12,7 +12,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-export const Route = createFileRoute("/about")({
+export const Route = createFileRoute("/_dashboard/about")({
   component: About,
 });
 

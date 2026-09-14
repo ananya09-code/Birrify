@@ -1,19 +1,22 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import CurrencySelect from "@/components/converter-ui/CurrencySelect";
-import { useMarket } from "../hooks/use-market";
-import { actionLook, bankFilterFields } from "../lib/data";
-import { Hero } from "../components/dashbored-ui/Hero";
-import InstantConverter from "../components/dashbored-ui/InstantConverter";
-import ExchangeRateChart from "../components/common-ui/ExchangeRateChart";
-import StatusCard from "../components/common-ui/StatusCard";
-import DataTable from "../components/common-ui/Table";
-import TableToolbar from "../components/common-ui/TableToolbar";
-import TablePagination from "../components/common-ui/TablePagination";
-import { useRates } from "../hooks/use-rates";
-import { rateColumns } from "../lib/ratescolumn";
-import { useMeta } from "../services/meta";
-export const Route = createFileRoute("/dashboard")({
+import { useMarket } from "@/hooks/use-market";
+import { actionLook, bankFilterFields } from "@/lib/data";
+import { Hero } from "@/components/dashbored-ui/Hero";
+import InstantConverter from "@/components/dashbored-ui/InstantConverter";
+import ExchangeRateChart from "@/components/common-ui/ExchangeRateChart";
+import StatusCard from "@/components/common-ui/StatusCard";
+import DataTable from "@/components/common-ui/Table";
+import TableToolbar from "@/components/common-ui/TableToolbar";
+import TablePagination from "@/components/common-ui/TablePagination";
+import { useRates } from "@/hooks/use-rates";
+import { rateColumns } from "@/lib/ratescolumn";
+import { useMeta } from "@/services/meta";
+import { LoadingState } from "@/components/state-ui/Loading";
+import { ErrorState } from "@/components/state-ui/Error";
+import { EmptyState } from "@/components/state-ui/Empty";
+export const Route = createFileRoute("/_dashboard/dashboard")({
   component: Dashboard,
 });
 
@@ -35,6 +38,8 @@ function Dashboard() {
     data: market,
     isLoading: marketLoading,
     isError: marketError,
+    refetch: marketRefetch,
+    isFetching: marketFetching,
   } = useMarket({
     currency,
   });
@@ -43,6 +48,7 @@ function Dashboard() {
     data: rates,
     isLoading: ratesLoading,
     isError: ratesError,
+    refetch: ratesRefetch,
   } = useRates({
     currency,
     date,
@@ -88,28 +94,26 @@ function Dashboard() {
         },
       ]
     : [];
-
   if (marketLoading || ratesLoading) {
-    return (
-      <main className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-sm text-muted-foreground">Loading dashboard...</p>
-      </main>
-    );
+    return <LoadingState message="Loading market data..." />;
   }
 
   if (marketError || ratesError) {
     return (
-      <main className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-sm text-destructive">
-          Failed to load dashboard data.
-        </p>
-      </main>
+      <ErrorState
+        title="Failed to load dashboard data"
+        message="We couldn't retrieve the latest market data. Please try again."
+        onRetry={() => {
+          marketRefetch();
+          ratesRefetch();
+        }}
+      />
     );
   }
 
   return (
     <main className="w-full">
-      <div className="mx-auto w-full max-w-7xl px-3 py-5 sm:px-5 lg:px-6">
+      <div className="mx-auto w-full max-w-7xl px-2 py-4 sm:px-4 lg:px-1">
         <Hero />
 
         {/* Currency */}
@@ -152,13 +156,7 @@ function Dashboard() {
         {/* Banks */}
         <div className="mt-5">
           <div className="mb-3 flex items-center justify-between gap-3">
-            <div>
-              <h2 className="text-base font-semibold">Bank Rates</h2>
-              <p className="text-xs text-muted-foreground">
-                Latest rates across supported banks.
-              </p>
-            </div>
-
+            <div></div>
             <TableToolbar
               search={bankSearch}
               onSearchChange={setBankSearch}

@@ -11,7 +11,7 @@ import { useInfo } from "@/hooks/use-info";
 
 type RateType = "average" | "buy" | "sell";
 
-export const Route = createFileRoute("/converter")({
+export const Route = createFileRoute("/_dashboard/converter")({
   component: ConverterPage,
 });
 
@@ -19,7 +19,9 @@ function ConverterPage() {
   const [amount, setAmount] = useState("1000");
   const { data: info, isLoading: infoLoading, isError: infoError } = useInfo();
   const currencies = info?.currencies ?? [];
-  const foreignCurrencies = currencies.filter((currency) => currency.code !== "ETB");
+  const foreignCurrencies = currencies.filter(
+    (currency) => currency.code !== "ETB",
+  );
   const defaultForeign = foreignCurrencies[0]?.code ?? "USD";
   const [fromCurrency, setFromCurrency] = useState(defaultForeign);
   const [toCurrency, setToCurrency] = useState("ETB");
@@ -49,8 +51,26 @@ function ConverterPage() {
       return 1;
     }
 
-    const sourceRate = fromCurrency === "ETB" ? 1 : rateType === "buy" ? fromData?.market.average_buy ?? 0 : rateType === "sell" ? fromData?.market.average_sell ?? 0 : fromData ? getAverage(fromData.market) : 0;
-    const targetRate = toCurrency === "ETB" ? 1 : rateType === "buy" ? toData?.market.average_buy ?? 0 : rateType === "sell" ? toData?.market.average_sell ?? 0 : toData ? getAverage(toData.market) : 0;
+    const sourceRate =
+      fromCurrency === "ETB"
+        ? 1
+        : rateType === "buy"
+          ? (fromData?.market.average_buy ?? 0)
+          : rateType === "sell"
+            ? (fromData?.market.average_sell ?? 0)
+            : fromData
+              ? getAverage(fromData.market)
+              : 0;
+    const targetRate =
+      toCurrency === "ETB"
+        ? 1
+        : rateType === "buy"
+          ? (toData?.market.average_buy ?? 0)
+          : rateType === "sell"
+            ? (toData?.market.average_sell ?? 0)
+            : toData
+              ? getAverage(toData.market)
+              : 0;
 
     if (!sourceRate || !targetRate) {
       return 0;
@@ -103,27 +123,29 @@ function ConverterPage() {
     setToCurrency("ETB");
   }
 
-  const popularCurrencies = currencies.filter(
-    (currency) => currency.code !== "ETB",
-  ).map((currency) => {
-    const market = markets.data?.data.find((item) => item.currency === currency.code);
+  const popularCurrencies = currencies
+    .filter((currency) => currency.code !== "ETB")
+    .map((currency) => {
+      const market = markets.data?.data.find(
+        (item) => item.currency === currency.code,
+      );
 
-    return {
-      code: currency.code,
-      average: market ? getAverage(market.market) : 0,
-    };
-  });
+      return {
+        code: currency.code,
+        average: market ? getAverage(market.market) : 0,
+      };
+    });
 
   const fromName =
-    currencies.find((currency) => currency.code === fromCurrency)
-      ?.name ?? fromCurrency;
+    currencies.find((currency) => currency.code === fromCurrency)?.name ??
+    fromCurrency;
 
   const toName =
-    currencies.find((currency) => currency.code === toCurrency)
-      ?.name ?? toCurrency;
+    currencies.find((currency) => currency.code === toCurrency)?.name ??
+    toCurrency;
 
   return (
-    <main className="mx-auto w-full max-w-7xl space-y-8 px-4 py-6 sm:px-6 lg:px-8">
+    <main className="mx-auto w-full max-w-7xl space-y-8 px-4 py-6 sm:px-6 lg:px-2">
       <header>
         <div className="mb-2 flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400">
           <Calculator className="size-4" />
@@ -158,8 +180,13 @@ function ConverterPage() {
         currencies={currencies}
       />
 
-      {infoError || fromMarket.isError || toMarket.isError || markets.isError ? (
-        <p className="rounded-lg border border-destructive/30 p-3 text-sm text-destructive">Unable to load one or more current market rates. Please retry.</p>
+      {infoError ||
+      fromMarket.isError ||
+      toMarket.isError ||
+      markets.isError ? (
+        <p className="rounded-lg border border-destructive/30 p-3 text-sm text-destructive">
+          Unable to load one or more current market rates. Please retry.
+        </p>
       ) : null}
 
       <PopularConversions

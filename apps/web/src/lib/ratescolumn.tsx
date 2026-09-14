@@ -41,7 +41,7 @@ export const rateColumns: Column<Rate>[] = [
     key: "buy",
     header: "Buy",
     render: (rate) => (
-      <span className="font-medium">{rate.buy.toFixed(2)}</span>
+      <span className="font-medium text-green-500">{rate.buy.toFixed(2)}</span>
     ),
   },
 
@@ -49,7 +49,7 @@ export const rateColumns: Column<Rate>[] = [
     key: "sell",
     header: "Sell",
     render: (rate) => (
-      <span className="font-medium">{rate.sell.toFixed(2)}</span>
+      <span className="font-medium text-red-500">{rate.sell.toFixed(2)}</span>
     ),
   },
 

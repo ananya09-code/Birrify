@@ -50,7 +50,7 @@ export default function BankCard({ bank, currency }: BankCardProps) {
         <div className="rounded-lg bg-muted/50 p-3">
           <p className="text-xs text-muted-foreground">Buy</p>
 
-          <p className="mt-1 text-lg font-semibold text-blue-600 dark:text-blue-400">
+          <p className="mt-1 text-lg font-semibold text-green-500">
             {rate.buy.toFixed(2)}
           </p>
         </div>
@@ -58,7 +58,9 @@ export default function BankCard({ bank, currency }: BankCardProps) {
         <div className="rounded-lg bg-muted/50 p-3">
           <p className="text-xs text-muted-foreground">Sell</p>
 
-          <p className="mt-1 text-lg font-semibold">{rate.sell.toFixed(2)}</p>
+          <p className="mt-1 text-lg font-semibold text-red-500">
+            {rate.sell.toFixed(2)}
+          </p>
         </div>
       </div>
 

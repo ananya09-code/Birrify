@@ -12,7 +12,7 @@ import OtherCurrencyRates from "@/components/banks-ui/OtherCurrencyRates";
 import BankAbout from "@/components/banks-ui/BankAbout";
 type Period = "7D" | "30D" | "90D" | "1Y";
 
-export const Route = createFileRoute("/banks/$bankId")({
+export const Route = createFileRoute("/_dashboard/banks/$bankId")({
   component: BankDetailsPage,
 });
 

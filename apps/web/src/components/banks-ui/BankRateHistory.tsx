@@ -63,7 +63,7 @@ export default function BankRateHistory({
             <div
               className={
                 isPositive
-                  ? "flex items-center gap-1.5 text-sm font-medium text-blue-600 dark:text-blue-400"
+                  ? "flex items-center gap-1.5 text-sm font-medium text-green-600 "
                   : "flex items-center gap-1.5 text-sm font-medium text-red-600 dark:text-red-400"
               }
             >
@@ -169,19 +169,19 @@ export default function BankRateHistory({
                 <Line
                   type="monotone"
                   dataKey="buy"
-                  stroke="currentColor"
+                  stroke="green"
                   strokeWidth={2}
                   dot={false}
-                  className="text-blue-600"
+                  className="text-green-500"
                 />
 
                 <Line
                   type="monotone"
                   dataKey="sell"
-                  stroke="currentColor"
+                  stroke="red"
                   strokeWidth={2}
                   dot={false}
-                  className="text-blue-300 dark:text-blue-400"
+                  className="text-red-500"
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -190,12 +190,12 @@ export default function BankRateHistory({
           {/* Legend */}
           <div className="flex items-center gap-5 border-t px-5 py-4 text-xs text-muted-foreground">
             <div className="flex items-center gap-2">
-              <span className="size-2 rounded-full bg-blue-600" />
+              <span className="size-2 rounded-full bg-green-500" />
               Buy
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="size-2 rounded-full bg-blue-300 dark:bg-blue-400" />
+              <span className="size-2 rounded-full bg-red-500" />
               Sell
             </div>
           </div>

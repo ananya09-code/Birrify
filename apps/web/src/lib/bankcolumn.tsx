@@ -50,7 +50,7 @@ export function getBankColumns(currency: string): Column<Bank>[] {
         const rate = bank.rates.find((item) => item.currency === currency);
 
         return rate ? (
-          <span className="font-medium text-blue-600 dark:text-blue-400">
+          <span className="font-medium text-green-500">
             {rate.buy.toFixed(2)}
           </span>
         ) : (
@@ -66,7 +66,9 @@ export function getBankColumns(currency: string): Column<Bank>[] {
         const rate = bank.rates.find((item) => item.currency === currency);
 
         return rate ? (
-          rate.sell.toFixed(2)
+          <span className="font-medium text-red-500">
+            {rate.sell.toFixed(2)}
+          </span>
         ) : (
           <span className="text-muted-foreground">—</span>
         );

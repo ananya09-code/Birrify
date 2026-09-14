@@ -43,16 +43,16 @@ export const compareColumns: Column<CompareBank>[] = [
     key: "buy",
     header: "Buy",
     render: (bank) => (
-      <span className="font-medium text-blue-600 dark:text-blue-400">
-        {bank.buy.toFixed(2)}
-      </span>
+      <span className="font-medium text-green-500">{bank.buy.toFixed(2)}</span>
     ),
   },
 
   {
     key: "sell",
     header: "Sell",
-    render: (bank) => bank.sell.toFixed(2),
+    render: (bank) => (
+      <span className="font-medium text-red-500">{bank.sell.toFixed(2)}</span>
+    ),
   },
 
   {

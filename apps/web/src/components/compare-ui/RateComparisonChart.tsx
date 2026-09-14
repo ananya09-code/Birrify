@@ -31,7 +31,7 @@ export default function RateComparisonChart({
             </p>
           </div>
 
-          <span className="rounded-md bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">
+          <span className="rounded-md bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-600 shadow-sm">
             {currency} / ETB
           </span>
         </div>
@@ -77,7 +77,7 @@ export default function RateComparisonChart({
                 cursor={{
                   fill: "hsl(var(--muted) / 0.4)",
                 }}
-              formatter={(value, name) => [
+                formatter={(value, name) => [
                   Number(value ?? 0).toFixed(2),
                   name === "buy" ? "Buy" : "Sell",
                 ]}
@@ -87,7 +87,7 @@ export default function RateComparisonChart({
               <Bar
                 dataKey="buy"
                 name="buy"
-                fill="#2563eb"
+                fill="#DC2626"
                 radius={[4, 4, 0, 0]}
                 maxBarSize={32}
               />
@@ -95,7 +95,8 @@ export default function RateComparisonChart({
               <Bar
                 dataKey="sell"
                 name="sell"
-                fill="#93c5fd"
+                fill="#16A34A"
+
                 radius={[4, 4, 0, 0]}
                 maxBarSize={32}
               />
@@ -105,12 +106,12 @@ export default function RateComparisonChart({
 
         <div className="mt-4 flex items-center justify-center gap-6 border-t pt-4 text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
-            <span className="size-2.5 rounded-full bg-blue-600" />
+            <span className="size-2.5 rounded-full bg-green-500" />
             Buy rate
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="size-2.5 rounded-full bg-blue-300" />
+            <span className="size-2.5 rounded-full bg-red-500" />
             Sell rate
           </div>
         </div>

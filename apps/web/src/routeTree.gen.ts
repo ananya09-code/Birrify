@@ -10,120 +10,126 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AlertsRouteImport } from './routes/Alerts'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as BanksRouteImport } from './routes/banks'
-import { Route as CompareRouteImport } from './routes/compare'
-import { Route as ConverterRouteImport } from './routes/converter'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as DevelopersRouteImport } from './routes/developers'
-import { Route as HistoryRouteImport } from './routes/history'
-import { Route as StockmarketRouteImport } from './routes/stockmarket'
-import { Route as BanksIndexRouteImport } from './routes/banks/index'
-import { Route as BanksBankIdRouteImport } from './routes/banks/$bankId'
+import { Route as DashboardRouteImport } from './routes/_dashboard'
+import { Route as DashboardAlertsRouteImport } from './routes/_dashboard/Alerts'
+import { Route as DashboardAboutRouteImport } from './routes/_dashboard/about'
+import { Route as DashboardBanksRouteImport } from './routes/_dashboard/banks'
+import { Route as DashboardCompareRouteImport } from './routes/_dashboard/compare'
+import { Route as DashboardConverterRouteImport } from './routes/_dashboard/converter'
+import { Route as DashboardDashboardRouteImport } from './routes/_dashboard/dashboard'
+import { Route as DashboardDevelopersRouteImport } from './routes/_dashboard/developers'
+import { Route as DashboardHistoryRouteImport } from './routes/_dashboard/history'
+import { Route as DashboardStockmarketRouteImport } from './routes/_dashboard/stockmarket'
+import { Route as DashboardBanksIndexRouteImport } from './routes/_dashboard/banks/index'
+import { Route as DashboardBanksBankIdRouteImport } from './routes/_dashboard/banks/$bankId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AlertsRoute = AlertsRouteImport.update({
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/_dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardAlertsRoute = DashboardAlertsRouteImport.update({
   id: '/Alerts',
   path: '/Alerts',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => DashboardRoute,
 } as any)
-const AboutRoute = AboutRouteImport.update({
+const DashboardAboutRoute = DashboardAboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => DashboardRoute,
 } as any)
-const BanksRoute = BanksRouteImport.update({
+const DashboardBanksRoute = DashboardBanksRouteImport.update({
   id: '/banks',
   path: '/banks',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => DashboardRoute,
 } as any)
-const CompareRoute = CompareRouteImport.update({
+const DashboardCompareRoute = DashboardCompareRouteImport.update({
   id: '/compare',
   path: '/compare',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => DashboardRoute,
 } as any)
-const ConverterRoute = ConverterRouteImport.update({
+const DashboardConverterRoute = DashboardConverterRouteImport.update({
   id: '/converter',
   path: '/converter',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => DashboardRoute,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
+const DashboardDashboardRoute = DashboardDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => DashboardRoute,
 } as any)
-const DevelopersRoute = DevelopersRouteImport.update({
+const DashboardDevelopersRoute = DashboardDevelopersRouteImport.update({
   id: '/developers',
   path: '/developers',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => DashboardRoute,
 } as any)
-const HistoryRoute = HistoryRouteImport.update({
+const DashboardHistoryRoute = DashboardHistoryRouteImport.update({
   id: '/history',
   path: '/history',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => DashboardRoute,
 } as any)
-const StockmarketRoute = StockmarketRouteImport.update({
+const DashboardStockmarketRoute = DashboardStockmarketRouteImport.update({
   id: '/stockmarket',
   path: '/stockmarket',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => DashboardRoute,
 } as any)
-const BanksIndexRoute = BanksIndexRouteImport.update({
+const DashboardBanksIndexRoute = DashboardBanksIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => BanksRoute,
+  getParentRoute: () => DashboardBanksRoute,
 } as any)
-const BanksBankIdRoute = BanksBankIdRouteImport.update({
+const DashboardBanksBankIdRoute = DashboardBanksBankIdRouteImport.update({
   id: '/$bankId',
   path: '/$bankId',
-  getParentRoute: () => BanksRoute,
+  getParentRoute: () => DashboardBanksRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/Alerts': typeof AlertsRoute
-  '/about': typeof AboutRoute
-  '/banks': typeof BanksRouteWithChildren
-  '/compare': typeof CompareRoute
-  '/converter': typeof ConverterRoute
-  '/dashboard': typeof DashboardRoute
-  '/developers': typeof DevelopersRoute
-  '/history': typeof HistoryRoute
-  '/stockmarket': typeof StockmarketRoute
-  '/banks/$bankId': typeof BanksBankIdRoute
-  '/banks/': typeof BanksIndexRoute
+  '/Alerts': typeof DashboardAlertsRoute
+  '/about': typeof DashboardAboutRoute
+  '/banks': typeof DashboardBanksRouteWithChildren
+  '/compare': typeof DashboardCompareRoute
+  '/converter': typeof DashboardConverterRoute
+  '/dashboard': typeof DashboardDashboardRoute
+  '/developers': typeof DashboardDevelopersRoute
+  '/history': typeof DashboardHistoryRoute
+  '/stockmarket': typeof DashboardStockmarketRoute
+  '/banks/$bankId': typeof DashboardBanksBankIdRoute
+  '/banks/': typeof DashboardBanksIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/Alerts': typeof AlertsRoute
-  '/about': typeof AboutRoute
-  '/compare': typeof CompareRoute
-  '/converter': typeof ConverterRoute
-  '/dashboard': typeof DashboardRoute
-  '/developers': typeof DevelopersRoute
-  '/history': typeof HistoryRoute
-  '/stockmarket': typeof StockmarketRoute
-  '/banks/$bankId': typeof BanksBankIdRoute
-  '/banks': typeof BanksIndexRoute
+  '/Alerts': typeof DashboardAlertsRoute
+  '/about': typeof DashboardAboutRoute
+  '/compare': typeof DashboardCompareRoute
+  '/converter': typeof DashboardConverterRoute
+  '/dashboard': typeof DashboardDashboardRoute
+  '/developers': typeof DashboardDevelopersRoute
+  '/history': typeof DashboardHistoryRoute
+  '/stockmarket': typeof DashboardStockmarketRoute
+  '/banks/$bankId': typeof DashboardBanksBankIdRoute
+  '/banks': typeof DashboardBanksIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/Alerts': typeof AlertsRoute
-  '/about': typeof AboutRoute
-  '/banks': typeof BanksRouteWithChildren
-  '/compare': typeof CompareRoute
-  '/converter': typeof ConverterRoute
-  '/dashboard': typeof DashboardRoute
-  '/developers': typeof DevelopersRoute
-  '/history': typeof HistoryRoute
-  '/stockmarket': typeof StockmarketRoute
-  '/banks/$bankId': typeof BanksBankIdRoute
-  '/banks/': typeof BanksIndexRoute
+  '/_dashboard': typeof DashboardRouteWithChildren
+  '/_dashboard/Alerts': typeof DashboardAlertsRoute
+  '/_dashboard/about': typeof DashboardAboutRoute
+  '/_dashboard/banks': typeof DashboardBanksRouteWithChildren
+  '/_dashboard/compare': typeof DashboardCompareRoute
+  '/_dashboard/converter': typeof DashboardConverterRoute
+  '/_dashboard/dashboard': typeof DashboardDashboardRoute
+  '/_dashboard/developers': typeof DashboardDevelopersRoute
+  '/_dashboard/history': typeof DashboardHistoryRoute
+  '/_dashboard/stockmarket': typeof DashboardStockmarketRoute
+  '/_dashboard/banks/$bankId': typeof DashboardBanksBankIdRoute
+  '/_dashboard/banks/': typeof DashboardBanksIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -156,30 +162,23 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/Alerts'
-    | '/about'
-    | '/banks'
-    | '/compare'
-    | '/converter'
-    | '/dashboard'
-    | '/developers'
-    | '/history'
-    | '/stockmarket'
-    | '/banks/$bankId'
-    | '/banks/'
+    | '/_dashboard'
+    | '/_dashboard/Alerts'
+    | '/_dashboard/about'
+    | '/_dashboard/banks'
+    | '/_dashboard/compare'
+    | '/_dashboard/converter'
+    | '/_dashboard/dashboard'
+    | '/_dashboard/developers'
+    | '/_dashboard/history'
+    | '/_dashboard/stockmarket'
+    | '/_dashboard/banks/$bankId'
+    | '/_dashboard/banks/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AlertsRoute: typeof AlertsRoute
-  AboutRoute: typeof AboutRoute
-  BanksRoute: typeof BanksRouteWithChildren
-  CompareRoute: typeof CompareRoute
-  ConverterRoute: typeof ConverterRoute
-  DashboardRoute: typeof DashboardRoute
-  DevelopersRoute: typeof DevelopersRoute
-  HistoryRoute: typeof HistoryRoute
-  StockmarketRoute: typeof StockmarketRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -191,109 +190,138 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/Alerts': {
-      id: '/Alerts'
-      path: '/Alerts'
-      fullPath: '/Alerts'
-      preLoaderRoute: typeof AlertsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/banks': {
-      id: '/banks'
-      path: '/banks'
-      fullPath: '/banks'
-      preLoaderRoute: typeof BanksRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/compare': {
-      id: '/compare'
-      path: '/compare'
-      fullPath: '/compare'
-      preLoaderRoute: typeof CompareRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/converter': {
-      id: '/converter'
-      path: '/converter'
-      fullPath: '/converter'
-      preLoaderRoute: typeof ConverterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
+    '/_dashboard': {
+      id: '/_dashboard'
+      path: ''
+      fullPath: '/'
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/developers': {
-      id: '/developers'
+    '/_dashboard/Alerts': {
+      id: '/_dashboard/Alerts'
+      path: '/Alerts'
+      fullPath: '/Alerts'
+      preLoaderRoute: typeof DashboardAlertsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/_dashboard/about': {
+      id: '/_dashboard/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof DashboardAboutRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/_dashboard/banks': {
+      id: '/_dashboard/banks'
+      path: '/banks'
+      fullPath: '/banks'
+      preLoaderRoute: typeof DashboardBanksRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/_dashboard/compare': {
+      id: '/_dashboard/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof DashboardCompareRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/_dashboard/converter': {
+      id: '/_dashboard/converter'
+      path: '/converter'
+      fullPath: '/converter'
+      preLoaderRoute: typeof DashboardConverterRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/_dashboard/dashboard': {
+      id: '/_dashboard/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardDashboardRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/_dashboard/developers': {
+      id: '/_dashboard/developers'
       path: '/developers'
       fullPath: '/developers'
-      preLoaderRoute: typeof DevelopersRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof DashboardDevelopersRouteImport
+      parentRoute: typeof DashboardRoute
     }
-    '/history': {
-      id: '/history'
+    '/_dashboard/history': {
+      id: '/_dashboard/history'
       path: '/history'
       fullPath: '/history'
-      preLoaderRoute: typeof HistoryRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof DashboardHistoryRouteImport
+      parentRoute: typeof DashboardRoute
     }
-    '/stockmarket': {
-      id: '/stockmarket'
+    '/_dashboard/stockmarket': {
+      id: '/_dashboard/stockmarket'
       path: '/stockmarket'
       fullPath: '/stockmarket'
-      preLoaderRoute: typeof StockmarketRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof DashboardStockmarketRouteImport
+      parentRoute: typeof DashboardRoute
     }
-    '/banks/': {
-      id: '/banks/'
+    '/_dashboard/banks/': {
+      id: '/_dashboard/banks/'
       path: '/'
       fullPath: '/banks/'
-      preLoaderRoute: typeof BanksIndexRouteImport
-      parentRoute: typeof BanksRoute
+      preLoaderRoute: typeof DashboardBanksIndexRouteImport
+      parentRoute: typeof DashboardBanksRoute
     }
-    '/banks/$bankId': {
-      id: '/banks/$bankId'
+    '/_dashboard/banks/$bankId': {
+      id: '/_dashboard/banks/$bankId'
       path: '/$bankId'
       fullPath: '/banks/$bankId'
-      preLoaderRoute: typeof BanksBankIdRouteImport
-      parentRoute: typeof BanksRoute
+      preLoaderRoute: typeof DashboardBanksBankIdRouteImport
+      parentRoute: typeof DashboardBanksRoute
     }
   }
 }
 
-interface BanksRouteChildren {
-  BanksBankIdRoute: typeof BanksBankIdRoute
-  BanksIndexRoute: typeof BanksIndexRoute
+interface DashboardBanksRouteChildren {
+  DashboardBanksBankIdRoute: typeof DashboardBanksBankIdRoute
+  DashboardBanksIndexRoute: typeof DashboardBanksIndexRoute
 }
 
-const BanksRouteChildren: BanksRouteChildren = {
-  BanksBankIdRoute: BanksBankIdRoute,
-  BanksIndexRoute: BanksIndexRoute,
+const DashboardBanksRouteChildren: DashboardBanksRouteChildren = {
+  DashboardBanksBankIdRoute: DashboardBanksBankIdRoute,
+  DashboardBanksIndexRoute: DashboardBanksIndexRoute,
 }
 
-const BanksRouteWithChildren = BanksRoute._addFileChildren(BanksRouteChildren)
+const DashboardBanksRouteWithChildren = DashboardBanksRoute._addFileChildren(
+  DashboardBanksRouteChildren,
+)
+
+interface DashboardRouteChildren {
+  DashboardAlertsRoute: typeof DashboardAlertsRoute
+  DashboardAboutRoute: typeof DashboardAboutRoute
+  DashboardBanksRoute: typeof DashboardBanksRouteWithChildren
+  DashboardCompareRoute: typeof DashboardCompareRoute
+  DashboardConverterRoute: typeof DashboardConverterRoute
+  DashboardDashboardRoute: typeof DashboardDashboardRoute
+  DashboardDevelopersRoute: typeof DashboardDevelopersRoute
+  DashboardHistoryRoute: typeof DashboardHistoryRoute
+  DashboardStockmarketRoute: typeof DashboardStockmarketRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAlertsRoute: DashboardAlertsRoute,
+  DashboardAboutRoute: DashboardAboutRoute,
+  DashboardBanksRoute: DashboardBanksRouteWithChildren,
+  DashboardCompareRoute: DashboardCompareRoute,
+  DashboardConverterRoute: DashboardConverterRoute,
+  DashboardDashboardRoute: DashboardDashboardRoute,
+  DashboardDevelopersRoute: DashboardDevelopersRoute,
+  DashboardHistoryRoute: DashboardHistoryRoute,
+  DashboardStockmarketRoute: DashboardStockmarketRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AlertsRoute: AlertsRoute,
-  AboutRoute: AboutRoute,
-  BanksRoute: BanksRouteWithChildren,
-  CompareRoute: CompareRoute,
-  ConverterRoute: ConverterRoute,
-  DashboardRoute: DashboardRoute,
-  DevelopersRoute: DevelopersRoute,
-  HistoryRoute: HistoryRoute,
-  StockmarketRoute: StockmarketRoute,
+  DashboardRoute: DashboardRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

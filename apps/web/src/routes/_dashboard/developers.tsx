@@ -15,7 +15,7 @@ import { ApiEndpoint } from "@/components/developers/ApiEndpoint";
 import { CodeBlock } from "@/components/developers/CodeBlock";
 import { createFileRoute } from "@tanstack/react-router";
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
-export const Route = createFileRoute("/developers")({
+export const Route = createFileRoute("/_dashboard/developers")({
   component: Developers,
 });
 
