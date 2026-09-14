@@ -74,6 +74,7 @@ export default function ConverterCard({
                   value={fromCurrency}
                   onChange={onFromCurrencyChange}
                   currencies={currencies}
+                  typeofuse="two"
                 />
               </div>
 
@@ -111,6 +112,7 @@ export default function ConverterCard({
                   value={toCurrency}
                   onChange={onToCurrencyChange}
                   currencies={currencies}
+                  typeofuse="two"
                 />
               </div>
 

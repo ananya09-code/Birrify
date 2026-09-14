@@ -15,7 +15,6 @@ import { rateColumns } from "@/lib/ratescolumn";
 import { useMeta } from "@/services/meta";
 import { LoadingState } from "@/components/state-ui/Loading";
 import { ErrorState } from "@/components/state-ui/Error";
-import { EmptyState } from "@/components/state-ui/Empty";
 export const Route = createFileRoute("/_dashboard/dashboard")({
   component: Dashboard,
 });
@@ -39,7 +38,6 @@ function Dashboard() {
     isLoading: marketLoading,
     isError: marketError,
     refetch: marketRefetch,
-    isFetching: marketFetching,
   } = useMarket({
     currency,
   });

@@ -4,13 +4,10 @@ import {
   BookOpen,
   ChartNoAxesCombined,
   CalendarDays,
-  Database,
   Info,
-  KeyRound,
   Landmark,
   LayoutDashboard,
   Scale,
-  Settings,
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import birrlogop from "../../assets/birrlogop.png";

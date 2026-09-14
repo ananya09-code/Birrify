@@ -23,7 +23,7 @@ import ahadu from "@/assets/Ahadu.svg";
 import gohbetoch from "@/assets/GohBetoch.png";
 import amhara from "@/assets/Amhara.png";
 import abay from "@/assets/abay.webp";
-export const banklogo = {
+export const banklogo: Record<string, string> = {
   cbe: cbe,
   boa: boa,
   dashen: dashen,
