@@ -23,14 +23,13 @@ export type BanksResponse = {
     date: string;
   };
 };
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function getBanks(currency = "USD"): Promise<BanksResponse> {
   const params = new URLSearchParams();
   params.set("currency", currency);
 
-  const response = await fetch(
-    `http://localhost:8000/api/banks/?${params.toString()}`,
-  );
+  const response = await fetch(`${API_URL}/api/v1/banks?${params.toString()}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch banks");
@@ -40,7 +39,7 @@ export async function getBanks(currency = "USD"): Promise<BanksResponse> {
 }
 
 export async function getBank(bankId: string): Promise<Bank> {
-  const response = await fetch(`http://localhost:8000/api/banks/${bankId}`);
+  const response = await fetch(`${API_URL}/api/v1/banks/${bankId}`);
 
   if (!response.ok) {
     if (response.status === 404) {
@@ -103,7 +102,7 @@ export async function getBankHistory(
   });
 
   const response = await fetch(
-    `http://localhost:8000/api/banks/${bankId}/history?${params.toString()}`,
+    `${API_URL}/api/v1/history/${bankId}?${params.toString()}`,
   );
 
   if (!response.ok) {

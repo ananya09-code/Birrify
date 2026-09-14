@@ -20,6 +20,7 @@ type GetMarketParams = {
   date?: string;
 };
 
+const API_URL = import.meta.env.VITE_API_URL;
 export async function getMarket({
   currency = "USD",
   date,
@@ -32,9 +33,7 @@ export async function getMarket({
     params.set("date", date);
   }
 
-  const response = await fetch(
-    `http://127.0.0.1:8000/api/market?${params.toString()}`,
-  );
+  const response = await fetch(`${API_URL}/api/v1/market?${params.toString()}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch market");
@@ -45,7 +44,7 @@ export async function getMarket({
 
 export async function getMarkets(date?: string): Promise<MarketsResponse> {
   const params = date ? `?date=${encodeURIComponent(date)}` : "";
-  const response = await fetch(`http://127.0.0.1:8000/api/market/all${params}`);
+  const response = await fetch(`${API_URL}/api/v1/markets${params}`);
   if (!response.ok) throw new Error("Failed to fetch markets");
   return response.json();
 }

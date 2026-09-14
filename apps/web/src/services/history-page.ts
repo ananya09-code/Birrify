@@ -27,13 +27,14 @@ export type HistoryResponse = {
   };
   history: HistoryPoint[];
 };
+const API_URL = import.meta.env.VITE_API_URL;
 export async function getRateHistory(
   currency = "USD",
   period = "7D",
 ): Promise<HistoryResponse> {
   const params = new URLSearchParams({ currency, period });
   const response = await fetch(
-    `http://localhost:8000/api/history?${params.toString()}`,
+    `${API_URL}/api/v1/history?${params.toString()}`,
   );
   if (!response.ok) {
     throw new Error("Failed to fetch rate history");

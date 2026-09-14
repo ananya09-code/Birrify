@@ -5,7 +5,7 @@ type GetRatesParams = {
   page?: number;
   perPage?: number;
 };
-
+const API_URL = import.meta.env.VITE_API_URL;
 export async function getRates({
   currency = "USD",
   date,
@@ -22,9 +22,7 @@ export async function getRates({
     params.set("date", date);
   }
 
-  const response = await fetch(
-    `http://127.0.0.1:8000/api/rates?${params.toString()}`,
-  );
+  const response = await fetch(`${API_URL}/api/v1/rates?${params.toString()}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch rates");

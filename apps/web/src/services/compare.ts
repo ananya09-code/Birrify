@@ -22,7 +22,7 @@ export type CompareResponse = {
   banks: CompareBank[];
   last_updated: string;
 };
-
+const API_URL = import.meta.env.VITE_API_URL;
 export async function getCompareData(
   date: string,
   currency: string,
@@ -33,7 +33,7 @@ export async function getCompareData(
   params.set("currency", currency);
 
   const response = await fetch(
-    `http://localhost:8000/api/compare?${params.toString()}`,
+    `${API_URL}/api/v1/compare?${params.toString()}`,
   );
 
   if (!response.ok) {

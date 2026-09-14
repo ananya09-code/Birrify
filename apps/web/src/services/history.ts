@@ -34,7 +34,7 @@ type GetHistoryParams = {
   currency?: string;
   period?: string;
 };
-
+const API_URL = import.meta.env.VITE_API_URL;
 export async function getHistory({
   currency = "USD",
   period = "7D",
@@ -45,7 +45,7 @@ export async function getHistory({
   params.set("period", period);
 
   const response = await fetch(
-    `http://127.0.0.1:8000/api/history?${params.toString()}`,
+    `${API_URL}/api/v1/history?${params.toString()}`,
   );
 
   if (!response.ok) {
