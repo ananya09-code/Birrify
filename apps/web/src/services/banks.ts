@@ -29,7 +29,7 @@ export async function getBanks(currency = "USD"): Promise<BanksResponse> {
   const params = new URLSearchParams();
   params.set("currency", currency);
 
-  const response = await fetch(`${API_URL}/api/v1/banks?${params.toString()}`);
+  const response = await fetch(`${API_URL}/v1/banks/?${params.toString()}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch banks");
@@ -39,7 +39,7 @@ export async function getBanks(currency = "USD"): Promise<BanksResponse> {
 }
 
 export async function getBank(bankId: string): Promise<Bank> {
-  const response = await fetch(`${API_URL}/api/v1/banks/${bankId}`);
+  const response = await fetch(`${API_URL}/api/banks/${bankId}`);
 
   if (!response.ok) {
     if (response.status === 404) {
