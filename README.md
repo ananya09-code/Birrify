@@ -254,11 +254,6 @@ Interactive docs (Swagger UI) are available at `/docs` on whichever host is runn
 - [ ] Add a `.env.example` for both `backend/` and `apps/web/`
 - [ ] Add a license
 
----
-
-## License
-
-No license file is currently present in this repository. Until one is added, all rights are reserved by default — add a `LICENSE` file (MIT is a common choice for projects like this) if you intend for others to use or contribute to the code.
 
 ---
 
