@@ -246,20 +246,6 @@ Interactive docs (Swagger UI) are available at `/docs` on whichever host is runn
 
 ---
 
-## Known gaps / notes for contributors
-
-A few things stood out while reviewing the repo that are worth tracking as issues rather than leaving implicit:
-
-- **No license file.** The repo doesn't currently declare a license, which matters if you want others to legally reuse or contribute to it.
-- **`backend/src/backend_new/`** looks like leftover boilerplate from `uv init` (an unused `main()` stub) — safe to remove if it's not doing anything.
-- **`backend/app/api/routes/tast.py`** (likely a typo for "test") is registered but isn't documented anywhere; worth confirming whether it should ship in production.
-- **Duplicated `CURRENCY_NAMES` dict** is redefined in `rates.py`, `history.py`, and `compare.py` — a good candidate to hoist into `common.py`, which already exists.
-- **Inconsistent `VITE_API_URL` fallback** across `apps/web/src/services/*.ts` (`localhost:8000` vs `127.0.0.1:8000` vs no fallback at all) — worth centralizing in one client.
-- **No automated tests** are present in `backend/`, `apps/web/`, or `scraper/` yet.
-- The repo's remote name (`Birrify`) differs from the clone URL referenced in the previous README (`ethio-exchange`) and from the scraper's Render service name (`brrify-api`) — minor, but worth aligning for clarity.
-
----
-
 ## Roadmap
 
 - [ ] Expand currency and bank coverage further
