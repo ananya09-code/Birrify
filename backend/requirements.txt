@@ -1,6 +1,3 @@
-# FastAPI backend
-fastapi
-uvicorn[standard]
 
 # Database (SQLAlchemy ORM)
 sqlalchemy
