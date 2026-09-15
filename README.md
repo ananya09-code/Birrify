@@ -244,17 +244,6 @@ Interactive docs (Swagger UI) are available at `/docs` on whichever host is runn
 
 ---
 
-## Roadmap
-
-- [ ] Expand currency and bank coverage further
-- [ ] Add authentication + API keys for the public `/api/v1` surface
-- [ ] Add automated tests for scraper parsing logic (bank sites change layout without warning)
-- [ ] Add a `.env.example` for both `backend/` and `apps/web/`
-- [ ] Add a license
-
-
----
-
 ## Author
 
 Built by **Ananya Mengistu** — frontend-focused full-stack developer.
