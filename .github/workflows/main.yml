@@ -27,5 +27,5 @@ jobs:
         run: python -m playwright install
 
       - name: Run scraper with virtual display
-        working-directory: backend
+        working-directory: scraper
         run: xvfb-run -a python scripts/run_daily.py
