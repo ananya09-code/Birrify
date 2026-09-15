@@ -1,7 +1,11 @@
 import { ArrowUpRight, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-
-export function Hero() {
+type HeroProps = {
+  currency: string;
+  averagebuy: string;
+  averagesell: string;
+};
+export function Hero({ currency, averagebuy, averagesell }: HeroProps) {
   return (
     <section className="w-full">
       <div
@@ -140,10 +144,12 @@ export function Hero() {
             {/* Header */}
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-400">USD / ETB</p>
+                <p className="text-xs font-medium text-slate-400">
+                  {currency} / ETB
+                </p>
 
                 <p className="mt-1 text-sm font-semibold text-slate-900">
-                  US Dollar
+                  {averagesell}
                 </p>
               </div>
 
@@ -154,22 +160,14 @@ export function Hero() {
 
             {/* Rate */}
             <div className="mt-7 flex items-baseline">
-              <span className="text-3xl font-semibold tracking-tight text-slate-950">
-                145.32
+              <span className="text-3xl font-semibold tracking-tight text-green-500">
+                {averagebuy}
               </span>
 
               <span className="ml-2 text-sm text-slate-400">ETB</span>
             </div>
 
             {/* Change */}
-            <div className="mt-2 flex items-center gap-1.5 text-xs font-medium text-green-600">
-              <TrendingUp className="size-3.5" />
-
-              <span>+1.24%</span>
-
-              <span className="font-normal text-slate-400">today</span>
-            </div>
-
             {/* Mini chart */}
             <div className="mt-6 flex h-16 items-end gap-1">
               {[28, 35, 30, 42, 38, 48, 44, 52, 47, 58, 54, 62].map(

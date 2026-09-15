@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { createFileRoute } from "@tanstack/react-router";
-
+import { LoadingState } from "@/components/state-ui/Loading";
+import { ErrorState } from "@/components/state-ui/Error";
 import CurrencySelector from "@/components/compare-ui/CurrencySelector";
 import BankCard from "@/components/banks-ui/BankCard";
 import { useBanks } from "@/hooks/use-banks";
@@ -14,7 +15,12 @@ function BanksPage() {
   const [currency, setCurrency] = useState("USD");
   const [search, setSearch] = useState("");
 
-  const { data, isLoading, isError } = useBanks(currency);
+  const {
+    data,
+    isLoading,
+    isError,
+    refetch: refetchBanks,
+  } = useBanks(currency);
 
   const banks = data?.data ?? [];
 
@@ -31,21 +37,28 @@ function BanksPage() {
   }, [banks, search]);
 
   if (isLoading) {
+    return <LoadingState message="Loading banks..." />;
+  }
+  if (isError) {
+    return (
+      <ErrorState
+        title="Failed to load banks"
+        message="We couldn't retrieve the banks. Please try again."
+        onRetry={() => {
+          refetchBanks();
+        }}
+      />
+    );
+  }
+
+  if (!data) {
     return (
       <main className="flex min-h-[60vh] items-center justify-center">
         <p className="text-sm text-muted-foreground">Loading banks...</p>
       </main>
     );
   }
-
-  if (isError) {
-    return (
-      <main className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-sm text-destructive">Failed to load banks.</p>
-      </main>
-    );
-  }
-
+  console.log(data);
   return (
     <section className="space-y-6">
       <div>

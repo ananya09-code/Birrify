@@ -108,11 +108,14 @@ function Dashboard() {
       />
     );
   }
-
   return (
     <main className="w-full">
       <div className="mx-auto w-full max-w-7xl px-2 py-4 sm:px-4 lg:px-1">
-        <Hero />
+        <Hero
+          currency={currency}
+          averagebuy={market?.market.average_buy.toFixed(2) ?? ""}
+          averagesell={market?.market.average_sell.toFixed(2) ?? ""}
+        />
 
         {/* Currency */}
         <div className="mt-5 flex justify-between item-center  bg-gray-50  px-8 py-3 text-sm font-medium text-gray-700 shadow-sm border border-gray-300 rounded-lg">

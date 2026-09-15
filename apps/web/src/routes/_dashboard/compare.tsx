@@ -5,7 +5,8 @@ import RateComparisonChart from "@/components/compare-ui/RateComparisonChart";
 import { compareColumns } from "@/lib/comparecolumn";
 import StatusCard from "@/components/common-ui/StatusCard";
 import DataTable from "@/components/common-ui/Table";
-
+import { LoadingState } from "@/components/state-ui/Loading";
+import { ErrorState } from "@/components/state-ui/Error";
 import { useCompareData } from "@/hooks/use-compare";
 
 export const Route = createFileRoute("/_dashboard/compare")({
@@ -20,26 +21,28 @@ function ComparePage() {
 
   const {
     data: compareData,
-    isLoading,
-    isError,
+    isLoading: compareLoading,
+    isError: compareError,
+    refetch: compareRefetch,
   } = useCompareData(formattedDate, currency);
 
-  if (isLoading) {
-    return (
-      <main className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-sm text-muted-foreground">Loading comparison...</p>
-      </main>
-    );
+  if (compareLoading) {
+    return <LoadingState message="Loading market data..." />;
   }
 
-  if (isError || !compareData) {
+  if (compareError) {
     return (
-      <main className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-sm text-destructive">
-          Failed to load comparison data.
-        </p>
-      </main>
+      <ErrorState
+        title="Failed to load dashboard data"
+        message="We couldn't retrieve the latest market data. Please try again."
+        onRetry={() => {
+          compareRefetch();
+        }}
+      />
     );
+  }
+  if (!compareData) {
+    return <ErrorState title="Failed to load dashboard data" />;
   }
 
   const competitiveBank = compareData.summary.most_competitive_bank;

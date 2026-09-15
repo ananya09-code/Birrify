@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft } from "lucide-react";
-
+import { createFileRoute } from "@tanstack/react-router";
+import { LoadingState } from "@/components/state-ui/Loading";
+import { ErrorState } from "@/components/state-ui/Error";
 import { useBank } from "@/hooks/use-bank";
 import { useBankHistory } from "@/hooks/use-bank-history";
 
@@ -22,44 +22,43 @@ function BankDetailsPage() {
   const [currency, setCurrency] = useState("USD");
   const [period, setPeriod] = useState<Period>("7D");
 
-  const { data: bank, isLoading, isError } = useBank(bankId);
+  const {
+    data: bank,
+    isLoading,
+    isError,
+    refetch: bankRefetch,
+  } = useBank(bankId);
 
   const { data: historyData, isLoading: isHistoryLoading } = useBankHistory(
     bankId,
     currency,
     period,
   );
+  console.log(historyData);
 
   if (isLoading) {
-    return (
-      <main className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-sm text-muted-foreground">Loading bank...</p>
-      </main>
-    );
+    return <LoadingState message="Loading bank data..." />;
   }
 
-  if (isError || !bank) {
+  if (isError) {
     return (
-      <main className="flex min-h-[60vh] items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-xl font-semibold">Bank not found</h1>
-
-          <p className="mt-2 text-sm text-muted-foreground">
-            We couldn't find the bank you're looking for.
-          </p>
-
-          <Link
-            to="/banks"
-            className="mt-5 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
-          >
-            <ArrowLeft className="size-4" />
-            Back to Banks
-          </Link>
-        </div>
-      </main>
+      <ErrorState
+        title="Failed to load bank data"
+        message="We couldn't retrieve the bank data. Please try again."
+        onRetry={() => {
+          bankRefetch();
+        }}
+      />
     );
   }
-
+  if (!bank) {
+    return (
+      <ErrorState
+        title="Bank not found"
+        message="The bank you are looking for does not exist."
+      />
+    );
+  }
   const rate = bank.rates.find((item) => item.currency === currency);
 
   const updatedAt = bank.last_updated

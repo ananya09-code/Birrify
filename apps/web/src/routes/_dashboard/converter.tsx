@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Calculator } from "lucide-react";
-
+import { LoadingState } from "@/components/state-ui/Loading";
+import { ErrorState } from "@/components/state-ui/Error";
 import ConverterCard from "@/components/converter-ui/ConverterCard";
 import PopularConversions from "@/components/converter-ui/PopularConversions";
 import RateInfo from "@/components/converter-ui/RateInfo";
@@ -17,8 +18,37 @@ export const Route = createFileRoute("/_dashboard/converter")({
 
 function ConverterPage() {
   const [amount, setAmount] = useState("1000");
-  const { data: info, isLoading: infoLoading, isError: infoError } = useInfo();
+  const {
+    data: info,
+    isLoading: infoLoading,
+    isError: infoError,
+    refetch: refetchinfo,
+  } = useInfo();
+  if (infoLoading) {
+    return <LoadingState message="Loading banks..." />;
+  }
+  if (infoError) {
+    return (
+      <ErrorState
+        title="Failed to load banks"
+        message="We couldn't retrieve the banks. Please try again."
+        onRetry={() => {
+          refetchinfo();
+        }}
+      />
+    );
+  }
+
+  if (!info) {
+    return (
+      <main className="flex min-h-[60vh] items-center justify-center">
+        <p className="text-sm text-muted-foreground">Loading banks...</p>
+      </main>
+    );
+  }
+
   const currencies = info?.currencies ?? [];
+
   const foreignCurrencies = currencies.filter(
     (currency) => currency.code !== "ETB",
   );
