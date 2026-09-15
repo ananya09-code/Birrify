@@ -56,9 +56,7 @@ Based on the routes actually implemented in `apps/web/src/routes`:
 - A "Developers" page exposing the public API
 - Multi-currency support (USD, EUR, GBP, AED, SAR)
 - Public, versioned developer API (`/api/v1`) separate from the internal dashboard API
-
-> Note: an `Alerts` route and a `stockmarket` route also exist in the codebase but aren't mentioned in the previous README — worth confirming whether they're finished, in progress, or experimental before documenting them publicly.
-
+  
 ---
 
 ## Supported banks & currencies
