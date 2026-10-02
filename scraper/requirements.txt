@@ -1,7 +1,6 @@
-
 # Database (SQLAlchemy ORM)
 sqlalchemy
-psycopg2-binary
+psycopg[binary]
 
 # Environment variables
 python-dotenv
